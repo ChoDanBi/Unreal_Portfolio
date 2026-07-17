@@ -2,7 +2,7 @@
 
 
 #include "BaseCharacter.h"
-//#include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 ABaseCharacter::ABaseCharacter()
 {
@@ -24,15 +24,16 @@ void ABaseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	/*
-	UCharacterMovementComponent* MovementComp = GetCharacterMovement();
-	if (IsValid(MovementComp))
-	{
-		FVector Velocity = MovementComp->Velocity;
-		float GroundSpeed = Velocity.Size2D();
-		ShouldMove = GroundSpeed >= 1.0;
-	}
-	*/
+	UpdateAnimationData();
+
+}
+
+void ABaseCharacter::UpdateAnimationData()
+{
 	FVector Velocity = GetVelocity();
-	ShouldMove = Velocity.Size2D() > 3.f;
+	GroundSpeed = Velocity.Size2D();
+
+	ShouldMove = GroundSpeed > 1.f;
+
+	IsFalling = GetCharacterMovement()->IsFalling();
 }

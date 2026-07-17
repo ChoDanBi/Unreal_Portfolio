@@ -29,6 +29,8 @@ private:
 	float GroundSpeed;
 	UPROPERTY(Category = "Character Movement", EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
 	bool ShouldMove;
+	UPROPERTY(Category = "Character Movement", EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	bool IsFalling;
 
 public:
 	ABaseCharacter();
@@ -38,4 +40,8 @@ protected:
 
 public:	
 	virtual void Tick(float DeltaTime) override;
+
+protected:
+	virtual void UpdateAnimationData();
+
 };

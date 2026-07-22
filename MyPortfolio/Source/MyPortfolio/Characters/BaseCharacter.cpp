@@ -2,6 +2,8 @@
 
 
 #include "BaseCharacter.h"
+
+#include "MyPortfolio/Animations/BaseAnimInstance.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 ABaseCharacter::ABaseCharacter()

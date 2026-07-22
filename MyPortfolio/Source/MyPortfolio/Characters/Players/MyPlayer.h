@@ -13,7 +13,19 @@ UCLASS()
 class MYPORTFOLIO_API AMyPlayer : public ABaseCharacter
 {
 	GENERATED_BODY()
-	
+
+private://MeshComponent
+	UPROPERTY(VisibleAnywhere)
+	class UStaticMeshComponent* Sword;
+
+	UPROPERTY(VisibleAnywhere)
+	class UStaticMeshComponent* Shield;
+private: 
+	UPROPERTY(VisibleAnywhere)
+	class USpringArmComponent* SpringArm;
+	UPROPERTY(VisibleAnywhere)
+	class UCameraComponent* Camera;
+
 public:
 	AMyPlayer();
 

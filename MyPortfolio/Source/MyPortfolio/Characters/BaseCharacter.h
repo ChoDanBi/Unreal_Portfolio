@@ -11,6 +11,12 @@ class MYPORTFOLIO_API ABaseCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
+protected:	//컴포넌트 및 인스턴스
+	UPROPERTY(VisibleAnywhere)
+	class UBaseAnimInstance* AnimInstance;
+	UPROPERTY(VisibleAnywhere)
+	class ABaseController* BaseController;
+
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Status")
 	float MaxHp;

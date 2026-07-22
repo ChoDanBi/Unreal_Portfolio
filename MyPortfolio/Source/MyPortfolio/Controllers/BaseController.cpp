@@ -3,3 +3,6 @@
 
 #include "MyPortfolio/Controllers/BaseController.h"
 
+ABaseController::ABaseController()
+{
+}

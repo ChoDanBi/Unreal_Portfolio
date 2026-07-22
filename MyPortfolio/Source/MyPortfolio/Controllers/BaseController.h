@@ -13,5 +13,5 @@ UCLASS()
 class MYPORTFOLIO_API ABaseController : public AController
 {
 	GENERATED_BODY()
-	
+
 };

@@ -3,3 +3,16 @@
 
 #include "PlayerAnimInstance.h"
 
+UPlayerAnimInstance::UPlayerAnimInstance()
+{
+}
+
+void UPlayerAnimInstance::NativeBeginPlay()
+{
+	Super::NativeBeginPlay();
+}
+
+void UPlayerAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
+{
+	Super::NativeUpdateAnimation(DeltaSeconds);
+}

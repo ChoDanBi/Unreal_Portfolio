@@ -19,6 +19,7 @@ ABaseCharacter::ABaseCharacter()
 void ABaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
 	Hp = MaxHp;
 }
 
@@ -26,16 +27,4 @@ void ABaseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	UpdateAnimationData();
-
-}
-
-void ABaseCharacter::UpdateAnimationData()
-{
-	FVector Velocity = GetVelocity();
-	GroundSpeed = Velocity.Size2D();
-
-	ShouldMove = GroundSpeed > 1.f;
-
-	IsFalling = GetCharacterMovement()->IsFalling();
 }

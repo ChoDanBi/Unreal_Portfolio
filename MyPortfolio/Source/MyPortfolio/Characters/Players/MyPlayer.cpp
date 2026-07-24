@@ -2,14 +2,17 @@
 
 
 #include "MyPlayer.h"
+
 #include "MyPortfolio/Animations/PlayerAnim/PlayerAnimInstance.h"
+
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/StaticMeshComponent.h"
 
 AMyPlayer::AMyPlayer()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	//Tick 설정 : 현재는 쓰지 않음
+	PrimaryActorTick.bCanEverTick = false;
 	
 	//MeshComponent 설정
 	//몸
@@ -43,9 +46,9 @@ AMyPlayer::AMyPlayer()
 	SpringArm->SetupAttachment(RootComponent);
 
 	SpringArm->TargetArmLength = 400.f;
-	SpringArm->SetRelativeLocationAndRotation(FVector(0.0, 0.0, 100.0), FRotator(-25.0, 0.0, 0.0));
+	SpringArm->SetRelativeLocationAndRotation(FVector(0.0f, 0.0f, 9.0f), FRotator(-25.0f, 0.0f, 0.0f));
 	SpringArm->bUsePawnControlRotation = true;
-	SpringArm->SocketOffset = FVector(0.0, 120.0, 0.0);
+	SpringArm->SocketOffset = FVector(0.0f, 120.0f, 0.0f);
 
 	//카메라를 스프링암에 붙이기
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
@@ -60,18 +63,11 @@ AMyPlayer::AMyPlayer()
 void AMyPlayer::BeginPlay()
 {
 	Super::BeginPlay();
-	//애니메이션 인스턴스 가져오기
-	AnimInstance = Cast<UPlayerAnimInstance>(GetMesh()->GetAnimInstance());
+	
 }
 
 void AMyPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-}
-
-void AMyPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 }

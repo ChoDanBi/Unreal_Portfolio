@@ -11,12 +11,6 @@ class MYPORTFOLIO_API ABaseCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
-protected:	//컴포넌트 및 인스턴스
-	UPROPERTY(VisibleAnywhere)
-	class UBaseAnimInstance* AnimInstance;
-	UPROPERTY(VisibleAnywhere)
-	class ABaseController* BaseController;
-
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Status")
 	float MaxHp;
@@ -30,14 +24,6 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Status")
 	float Hp;
 
-private:
-	UPROPERTY(Category = "Character Movement", EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
-	float GroundSpeed;
-	UPROPERTY(Category = "Character Movement", EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
-	bool ShouldMove;
-	UPROPERTY(Category = "Character Movement", EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
-	bool IsFalling;
-
 public:
 	ABaseCharacter();
 
@@ -46,8 +32,4 @@ protected:
 
 public:	
 	virtual void Tick(float DeltaTime) override;
-
-protected:
-	virtual void UpdateAnimationData();
-
 };

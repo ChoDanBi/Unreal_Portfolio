@@ -13,5 +13,11 @@ UCLASS()
 class MYPORTFOLIO_API UPlayerAnimInstance : public UBaseAnimInstance
 {
 	GENERATED_BODY()
-	
+
+public:
+	UPlayerAnimInstance();
+
+public:
+	virtual void NativeBeginPlay() override;
+	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
 };

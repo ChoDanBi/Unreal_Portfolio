@@ -5,8 +5,11 @@
 
 #include "MyPortfolio/Animations/PlayerAnim/PlayerAnimInstance.h"
 
+#include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+
 #include "Camera/CameraComponent.h"
+
 #include "Components/StaticMeshComponent.h"
 
 AMyPlayer::AMyPlayer()
@@ -41,33 +44,50 @@ AMyPlayer::AMyPlayer()
 		Shield->SetRelativeLocationAndRotation(FVector(-0.52, 0.0, 0.0), FRotator(90.0, 90.0, 180.0));
 	}
 
+	//캐릭터 설정
+	GetCharacterMovement()->bOrientRotationToMovement = true;
+
 	//스프링암
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 	SpringArm->SetupAttachment(RootComponent);
 
-	SpringArm->TargetArmLength = 400.f;
-	SpringArm->SetRelativeLocationAndRotation(FVector(0.0f, 0.0f, 9.0f), FRotator(-25.0f, 0.0f, 0.0f));
-	SpringArm->bUsePawnControlRotation = true;
-	SpringArm->SocketOffset = FVector(0.0f, 120.0f, 0.0f);
-
 	//카메라를 스프링암에 붙이기
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(SpringArm);
+
+	//스프링암 설정
+	SpringArm->TargetArmLength = 400.f;
+	SpringArm->SetRelativeLocationAndRotation(FVector(0.0f, 0.0f, 9.0f), FRotator(-25.0f, 0.0f, 0.0f));
+	SpringArm->bUsePawnControlRotation = true;
+	SpringArm->bEnableCameraLag = true;
+	SpringArm->SocketOffset = FVector(0.0f, 120.0f, 0.0f);
 	
+
 	//애니메이션
 	static ConstructorHelpers::FClassFinder<UPlayerAnimInstance> AI(TEXT("/Script/Engine.AnimBlueprint'/Game/Animations/ABP_Player.ABP_Player_C'"));
 	if (AI.Succeeded()) GetMesh()->SetAnimInstanceClass(AI.Class);
-
 }
 
 void AMyPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	CurrentActionState = ECharacterActionState::Default;
 }
 
 void AMyPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+}
+
+void AMyPlayer::Attack()
+{
+	UPlayerAnimInstance* PlayerAnimInstance = Cast<UPlayerAnimInstance>(AnimInstance);
+	if (!PlayerAnimInstance) return;
+	
+	//몽타주 실행
+	//PlayerAnimInstance->PlayAttackMontage();
+	//히트박스 활성화
 
 }

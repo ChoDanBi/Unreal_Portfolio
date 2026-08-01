@@ -20,4 +20,14 @@ public:
 public:
 	virtual void NativeBeginPlay() override;
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
+
+protected:
+	UPROPERTY(Category = "Character Movement", EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	bool bIsGuarding;
+
+private:
+	void UpdateIsGuarding();
+
+public:
+	void PlayAttackMontage();
 };

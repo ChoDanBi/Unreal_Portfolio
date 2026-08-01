@@ -12,6 +12,10 @@ class MYPORTFOLIO_API ABaseCharacter : public ACharacter
 	GENERATED_BODY()
 
 protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Animation")
+	TObjectPtr<class UAnimInstance> AnimInstance;
+
+protected:	//초기값
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Status")
 	float MaxHp;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Status")
@@ -21,6 +25,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Status")
 	float DefensePower;
 
+protected:	//현재값
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Status")
 	float Hp;
 

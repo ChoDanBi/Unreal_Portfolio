@@ -26,6 +26,22 @@ void UBaseAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	if (!Character || !CharacterMovement) { return; }
 
 	GroundSpeed = CharacterMovement->Velocity.Size2D();
-	ShouldMove = GroundSpeed > 0.1f;
-	IsFalling = CharacterMovement->IsFalling();
+	bShouldMove = GroundSpeed > 0.1f;
+	bIsFalling = CharacterMovement->IsFalling();
+}
+
+void UBaseAnimInstance::PlayMontage(FName _MontageName)
+{
+	if (const TObjectPtr<UAnimMontage>* Montage = MontageMap.Find(_MontageName))
+	{
+		Montage_Play(*Montage);
+	}
+}
+
+void UBaseAnimInstance::StopMontage(FName _MontageName)
+{
+	if (const TObjectPtr<UAnimMontage>* Montage = MontageMap.Find(_MontageName))
+	{
+		//Montage_Stop(*Montage);
+	}
 }

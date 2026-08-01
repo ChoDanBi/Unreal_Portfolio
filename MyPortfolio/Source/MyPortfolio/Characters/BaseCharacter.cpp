@@ -5,6 +5,7 @@
 
 #include "MyPortfolio/Animations/BaseAnimInstance.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Animation/AnimInstance.h"
 
 ABaseCharacter::ABaseCharacter()
 {
@@ -19,6 +20,8 @@ ABaseCharacter::ABaseCharacter()
 void ABaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	AnimInstance = GetMesh()->GetAnimInstance();
 
 	Hp = MaxHp;
 }

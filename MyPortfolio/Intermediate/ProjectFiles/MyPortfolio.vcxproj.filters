@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\.vsconfig" />
+    <Filter Include="Config">
+      <UniqueIdentifier>{FA535FFB-25E1-3D20-B416-52F9BE21E06E}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Config\DefaultEditor.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEditorPerProjectUserSettings.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEngine.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultGame.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultInput.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\MyPortfolio.uproject" />
+    <Filter Include="Source">
+      <UniqueIdentifier>{F31BBDD1-B3E8-3BCC-9652-680E16935819}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\MyPortfolio.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\MyPortfolioEditor.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <Filter Include="Source\MyPortfolio">
+      <UniqueIdentifier>{BE2857DD-C070-3EED-BE0B-631E8F7C41C7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\MyPortfolio\Animations">
+      <UniqueIdentifier>{BC6B77AE-4078-3C0C-99AF-ACEE729643C3}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\MyPortfolio\Animations\BaseAnimInstance.cpp">
+      <Filter>Source\MyPortfolio\Animations</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\MyPortfolio\Animations\BaseAnimInstance.h">
+      <Filter>Source\MyPortfolio\Animations</Filter>
+    </ClInclude>
+    <Filter Include="Source\MyPortfolio\Animations\PlayerAnim">
+      <UniqueIdentifier>{3320A489-E12B-34B1-9509-63ECFDA61683}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\MyPortfolio\Animations\PlayerAnim\PlayerAnimInstance.cpp">
+      <Filter>Source\MyPortfolio\Animations\PlayerAnim</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\MyPortfolio\Animations\PlayerAnim\PlayerAnimInstance.h">
+      <Filter>Source\MyPortfolio\Animations\PlayerAnim</Filter>
+    </ClInclude>
+    <Filter Include="Source\MyPortfolio\Characters">
+      <UniqueIdentifier>{71756EB4-5967-30DA-89E4-1D8A2740E08C}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\MyPortfolio\Characters\BaseCharacter.cpp">
+      <Filter>Source\MyPortfolio\Characters</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\MyPortfolio\Characters\BaseCharacter.h">
+      <Filter>Source\MyPortfolio\Characters</Filter>
+    </ClInclude>
+    <Filter Include="Source\MyPortfolio\Characters\Players">
+      <UniqueIdentifier>{FCBDD022-D755-355E-9A99-3C6417BBAD49}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\MyPortfolio\Characters\Players\MyPlayer.cpp">
+      <Filter>Source\MyPortfolio\Characters\Players</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\MyPortfolio\Characters\Players\MyPlayer.h">
+      <Filter>Source\MyPortfolio\Characters\Players</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\MyPortfolio\Characters\Players\PlayerAttack.cpp">
+      <Filter>Source\MyPortfolio\Characters\Players</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\MyPortfolio\Characters\Players\PlayerAttack.h">
+      <Filter>Source\MyPortfolio\Characters\Players</Filter>
+    </ClInclude>
+    <Filter Include="Source\MyPortfolio\Controllers">
+      <UniqueIdentifier>{841D5B43-C327-30FD-824D-DF2C35D26866}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\MyPortfolio\Controllers\BasePlayerController.cpp">
+      <Filter>Source\MyPortfolio\Controllers</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\MyPortfolio\Controllers\BasePlayerController.h">
+      <Filter>Source\MyPortfolio\Controllers</Filter>
+    </ClInclude>
+    <Filter Include="Source\MyPortfolio\Controllers\PlayerController">
+      <UniqueIdentifier>{3B7EFD6E-3316-33BB-9134-E24EDD2E1635}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\MyPortfolio\Controllers\PlayerController\PlayerAnimalController.cpp">
+      <Filter>Source\MyPortfolio\Controllers\PlayerController</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\MyPortfolio\Controllers\PlayerController\PlayerAnimalController.h">
+      <Filter>Source\MyPortfolio\Controllers\PlayerController</Filter>
+    </ClInclude>
+    <Filter Include="Source\MyPortfolio\HitBox">
+      <UniqueIdentifier>{95E556E0-67FD-36A1-9F5A-EC938459BBD3}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\MyPortfolio\HitBox\BaseHitBox.cpp">
+      <Filter>Source\MyPortfolio\HitBox</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\MyPortfolio\HitBox\BaseHitBox.h">
+      <Filter>Source\MyPortfolio\HitBox</Filter>
+    </ClInclude>
+    <Filter Include="Source\MyPortfolio\HitBox\HitBoxes">
+      <UniqueIdentifier>{D58FC889-74DB-359E-98B3-E59BC9A5E6DA}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\MyPortfolio\HitBox\HitBoxes\BoxHitBox.cpp">
+      <Filter>Source\MyPortfolio\HitBox\HitBoxes</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\MyPortfolio\HitBox\HitBoxes\BoxHitBox.h">
+      <Filter>Source\MyPortfolio\HitBox\HitBoxes</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\MyPortfolio\HitBox\HitBoxes\CapsuleHitBox.cpp">
+      <Filter>Source\MyPortfolio\HitBox\HitBoxes</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\MyPortfolio\HitBox\HitBoxes\CapsuleHitBox.h">
+      <Filter>Source\MyPortfolio\HitBox\HitBoxes</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\MyPortfolio\HitBox\HitBoxes\SphereHitBox.cpp">
+      <Filter>Source\MyPortfolio\HitBox\HitBoxes</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\MyPortfolio\HitBox\HitBoxes\SphereHitBox.h">
+      <Filter>Source\MyPortfolio\HitBox\HitBoxes</Filter>
+    </ClInclude>
+    <None Include="..\..\Source\MyPortfolio\MyPortfolio.Build.cs">
+      <Filter>Source\MyPortfolio</Filter>
+    </None>
+    <ClCompile Include="..\..\Source\MyPortfolio\MyPortfolio.cpp">
+      <Filter>Source\MyPortfolio</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\MyPortfolio\MyPortfolio.h">
+      <Filter>Source\MyPortfolio</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,30 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "c:\\unreal_projects\\unreal_portfolio\\myportfolio\\source\\myportfolio\\animations\\playeranim\\playeraniminstance.cpp",
+        "ProvidedModule": "",
+        "PCH": "c:\\unreal_projects\\unreal_portfolio\\myportfolio\\intermediate\\build\\win64\\x64\\myportfolioeditor\\development\\unrealed\\sharedpch.unrealed.project.valapi.valexpapi.cpp20.h.pch",
+        "Includes": [
+            "c:\\unreal_projects\\unreal_portfolio\\myportfolio\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\myportfolio\\definitions.myportfolio.h",
+            "c:\\unreal_projects\\unreal_portfolio\\myportfolio\\source\\myportfolio\\animations\\playeranim\\playeraniminstance.h",
+            "c:\\unreal_projects\\unreal_portfolio\\myportfolio\\source\\myportfolio\\animations\\baseaniminstance.h",
+            "c:\\unreal_projects\\unreal_portfolio\\myportfolio\\intermediate\\build\\win64\\unrealeditor\\inc\\myportfolio\\uht\\baseaniminstance.generated.h",
+            "c:\\unreal_projects\\unreal_portfolio\\myportfolio\\intermediate\\build\\win64\\unrealeditor\\inc\\myportfolio\\uht\\playeraniminstance.generated.h",
+            "c:\\unreal_projects\\unreal_portfolio\\myportfolio\\source\\myportfolio\\characters\\players\\myplayer.h",
+            "c:\\unreal_projects\\unreal_portfolio\\myportfolio\\source\\myportfolio\\characters\\basecharacter.h",
+            "c:\\unrealengine\\ue_5.7\\engine\\source\\runtime\\engine\\classes\\gameframework\\character.h",
+            "c:\\unrealengine\\ue_5.7\\engine\\source\\runtime\\engine\\classes\\gameframework\\charactermovementreplication.h",
+            "c:\\unrealengine\\ue_5.7\\engine\\source\\runtime\\net\\core\\public\\net\\core\\nettoken\\nettokenexportcontext.h",
+            "c:\\unrealengine\\ue_5.7\\engine\\source\\runtime\\net\\iris\\public\\iris\\serialization\\irisobjectreferencepackagemap.h",
+            "c:\\unrealengine\\ue_5.7\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\iriscore\\uht\\irisobjectreferencepackagemap.generated.h",
+            "c:\\unrealengine\\ue_5.7\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\uht\\charactermovementreplication.generated.h",
+            "c:\\unrealengine\\ue_5.7\\engine\\source\\runtime\\engine\\classes\\gameframework\\rootmotionsource.h",
+            "c:\\unrealengine\\ue_5.7\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\uht\\rootmotionsource.generated.h",
+            "c:\\unrealengine\\ue_5.7\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\uht\\character.generated.h",
+            "c:\\unreal_projects\\unreal_portfolio\\myportfolio\\intermediate\\build\\win64\\unrealeditor\\inc\\myportfolio\\uht\\basecharacter.generated.h",
+            "c:\\unreal_projects\\unreal_portfolio\\myportfolio\\intermediate\\build\\win64\\unrealeditor\\inc\\myportfolio\\uht\\myplayer.generated.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

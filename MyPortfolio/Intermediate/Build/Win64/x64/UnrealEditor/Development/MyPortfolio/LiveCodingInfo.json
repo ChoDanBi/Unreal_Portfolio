@@ -1,0 +1,19 @@
+{
+	"RemapUnityFiles": 
+	{
+		"Module.MyPortfolio.gen.cpp.obj": [
+			"BaseAnimInstance.gen.cpp.obj",
+			"BaseCharacter.gen.cpp.obj",
+			"BaseHitBox.gen.cpp.obj",
+			"BasePlayerController.gen.cpp.obj",
+			"BoxHitBox.gen.cpp.obj",
+			"CapsuleHitBox.gen.cpp.obj",
+			"MyPlayer.gen.cpp.obj",
+			"MyPortfolio.init.gen.cpp.obj",
+			"PlayerAnimalController.gen.cpp.obj",
+			"PlayerAnimInstance.gen.cpp.obj",
+			"PlayerAttack.gen.cpp.obj",
+			"SphereHitBox.gen.cpp.obj"
+		]
+	}
+}

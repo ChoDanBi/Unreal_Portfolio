@@ -11,28 +11,29 @@ class MYPORTFOLIO_API ABaseHitBox : public AActor
 {
 	GENERATED_BODY()
 	
-public:	
+public:	//초기화값
 	ABaseHitBox();
 
-protected:
-	virtual void BeginPlay() override;
 
+//히트박스를 소유하는 Actor
 protected:
 	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<AActor> OwnerActor;
+public:
+	void SetOwnerActor(AActor* InOwnerActor) { OwnerActor = InOwnerActor; };
+
+
+	//HitBox의 충돌체
+protected:
 	TObjectPtr<class UShapeComponent> HitCollision;
 
-	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<class APawn> OwnerActor;
-
-public:
-	UFUNCTION(BlueprintCallable)
-	void DebugBox(class UBoxComponent* BoxCollision);
-	UFUNCTION(BlueprintCallable)
-	void DebugCapsule(class UCapsuleComponent* CapsuleCollision);
-	UFUNCTION(BlueprintCallable)
-	void DebugSphere(class USphereComponent* SphereCollision);
-
+	//HitBox 함수들
 public:
 	void ActivateHitBox();
 	void DeactivateHitBox();
+	
+	//HitBox 디버깅
+public:
+	UFUNCTION(BlueprintCallable)
+	virtual void DebugHitBox() {};
 };

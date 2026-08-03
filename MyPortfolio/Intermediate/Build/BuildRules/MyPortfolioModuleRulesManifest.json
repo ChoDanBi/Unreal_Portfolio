@@ -1,0 +1,8 @@
+{
+	"SourceFiles": [
+		"C:\\Unreal_Projects\\Unreal_Portfolio\\MyPortfolio\\Source\\MyPortfolio\\MyPortfolio.Build.cs",
+		"C:\\Unreal_Projects\\Unreal_Portfolio\\MyPortfolio\\Source\\MyPortfolio.Target.cs",
+		"C:\\Unreal_Projects\\Unreal_Portfolio\\MyPortfolio\\Source\\MyPortfolioEditor.Target.cs"
+	],
+	"EngineVersion": "5.7.4"
+}

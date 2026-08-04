@@ -27,7 +27,4 @@ protected:
 
 private:
 	void UpdateIsGuarding();
-
-public:
-	void PlayAttackMontage();
 };

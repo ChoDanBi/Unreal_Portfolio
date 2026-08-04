@@ -29,10 +29,5 @@ void UPlayerAnimInstance::UpdateIsGuarding()
 	if (!pCharacter) return;
 	
 	bIsGuarding = pCharacter->GetActionState() == ECharacterActionState::Guard;
-	if(bIsGuarding) UE_LOG(LogTemp, Log, TEXT("Guarding!!"));
-}
-
-void UPlayerAnimInstance::PlayAttackMontage()
-{
-	
+	//if(bIsGuarding) UE_LOG(LogTemp, Log, TEXT("Guarding!!"));
 }

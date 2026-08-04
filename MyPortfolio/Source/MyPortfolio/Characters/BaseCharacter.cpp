@@ -5,6 +5,7 @@
 
 #include "MyPortfolio/Animations/BaseAnimInstance.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "Animation/AnimInstance.h"
 
 ABaseCharacter::ABaseCharacter()
@@ -15,19 +16,27 @@ ABaseCharacter::ABaseCharacter()
 	AttackPower = 10.f;
 	AttackRange = 100.f;
 	DefensePower = 5.f;
+
+	AttackHitBox = nullptr;
 }
 
 void ABaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	AnimInstance = GetMesh()->GetAnimInstance();
+	BaseAnimInstance = GetMesh()->GetAnimInstance();
 
-	Hp = MaxHp;
+	CurrentHp = MaxHp;
 }
 
 void ABaseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	//쓸지 몰라서 냅두는 중
+}
 
+float ABaseCharacter::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	//구현해야 함
+	return Damage;
 }

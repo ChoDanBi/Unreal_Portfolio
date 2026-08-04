@@ -7,14 +7,14 @@ ABaseHitBox::ABaseHitBox()
 	PrimaryActorTick.bCanEverTick = false;
 }
 
-void ABaseHitBox::ActivateHitBox()
+void ABaseHitBox::OffHitBox()
 {
-	//SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	HitCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 void ABaseHitBox::DeactivateHitBox()
 {
-	//SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	HitCollision->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 }
 
 

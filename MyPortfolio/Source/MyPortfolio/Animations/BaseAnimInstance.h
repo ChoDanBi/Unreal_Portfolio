@@ -37,8 +37,8 @@ protected:	//¸ùÅ¸ÁÖ
 	TMap<FName, TObjectPtr<UAnimMontage>> MontageMap;
 
 public:
-	void PlayMontage(FName _MontageName);
-	void StopMontage(FName _MontageName);
-
-
+	UFUNCTION(Category = "Character Montage Function", BlueprintCallable)
+	float PlayMontageByName(FName _MontageName);
+	UFUNCTION(Category = "Character Montage Function", BlueprintCallable)
+	void StopMontageByName(FName _MontageName);
 };

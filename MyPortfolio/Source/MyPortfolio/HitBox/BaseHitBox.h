@@ -29,7 +29,7 @@ protected:
 
 	//HitBox 함수들
 public:
-	void ActivateHitBox();
+	void OffHitBox();
 	void DeactivateHitBox();
 	
 	//HitBox 디버깅

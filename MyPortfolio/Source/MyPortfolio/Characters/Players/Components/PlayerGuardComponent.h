@@ -1,0 +1,32 @@
+#pragma once
+
+#include "CoreMinimal.h"
+#include "Components/SceneComponent.h"
+#include "PlayerGuardComponent.generated.h"
+
+class AMyPlayer;
+class UBoxComponent;
+
+UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
+class MYPORTFOLIO_API UPlayerGuardComponent : public USceneComponent
+{
+	GENERATED_BODY()
+
+public:
+	UPlayerGuardComponent();
+protected:
+	virtual void BeginPlay() override;
+public:
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+protected:
+	//소유자 캐릭터
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Owner")
+	TObjectPtr<AMyPlayer> Player;
+
+
+protected:
+	//가드 히트박스 : 위치, 회전은 블루프린트에서 설정
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HitBox")
+	TObjectPtr<UBoxComponent> HitBox;
+};

@@ -30,18 +30,24 @@ void UBaseAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	bIsFalling = CharacterMovement->IsFalling();
 }
 
-void UBaseAnimInstance::PlayMontage(FName _MontageName)
+float UBaseAnimInstance::PlayMontageByName(FName _MontageName)
 {
 	if (const TObjectPtr<UAnimMontage>* Montage = MontageMap.Find(_MontageName))
 	{
-		Montage_Play(*Montage);
+		float PlayResult = Montage_Play(*Montage);
+		return PlayResult;
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("ERROR : Montage Not Found!"));
+		return 0.f;
 	}
 }
 
-void UBaseAnimInstance::StopMontage(FName _MontageName)
+void UBaseAnimInstance::StopMontageByName(FName _MontageName)
 {
 	if (const TObjectPtr<UAnimMontage>* Montage = MontageMap.Find(_MontageName))
 	{
-		//Montage_Stop(*Montage);
+		Montage_Stop(0.2f, *Montage);
 	}
 }

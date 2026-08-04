@@ -4,6 +4,8 @@
 #include "MyPlayer.h"
 
 #include "MyPortfolio/Animations/PlayerAnim/PlayerAnimInstance.h"
+#include "MyPortfolio/Characters/Players/Components/PlayerAttackComponent.h"
+#include "MyPortfolio/Characters/Players/Components/PlayerGuardComponent.h"
 
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -12,11 +14,15 @@
 
 #include "Components/StaticMeshComponent.h"
 
+#include "Components/CapsuleComponent.h"
+#include "Components/BoxComponent.h"
+
 AMyPlayer::AMyPlayer()
 {
 	//Tick 설정 : 현재는 쓰지 않음
 	PrimaryActorTick.bCanEverTick = false;
 	
+
 	//MeshComponent 설정
 	//몸
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> SM(TEXT("/Game/RPGHeroSquad/Mesh/Character/SK_DogPolyart.SK_DogPolyart"));
@@ -44,8 +50,15 @@ AMyPlayer::AMyPlayer()
 		Shield->SetRelativeLocationAndRotation(FVector(-0.52, 0.0, 0.0), FRotator(90.0, 90.0, 180.0));
 	}
 
+
+
 	//캐릭터 설정
 	GetCharacterMovement()->bOrientRotationToMovement = true;
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationYaw = false;
+	bUseControllerRotationRoll = false;
+
+
 
 	//스프링암
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
@@ -62,6 +75,35 @@ AMyPlayer::AMyPlayer()
 	SpringArm->bEnableCameraLag = true;
 	SpringArm->SocketOffset = FVector(0.0f, 120.0f, 0.0f);
 	
+	
+
+	//공격 컴포넌트 설정 : BP_PlayerAttackComp로 등록
+	static ConstructorHelpers::FClassFinder<UPlayerAttackComponent> AC(TEXT("/Script/Engine.Blueprint'/Game/Characters/Players/Components/BP_PlayerAttackComp.BP_PlayerAttackComp_C'"));
+	if (AC.Succeeded())
+	{
+		AttackComponent = Cast<UPlayerAttackComponent>(CreateDefaultSubobject(TEXT("AttackComponent"), AC.Class, AC.Class, true, false));
+		if (AttackComponent)AttackComponent->SetupAttachment(Sword);
+	}
+	//공격 히트박스 설정
+	AttackHitBox = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Attack HitBox"));
+	AttackHitBox->SetupAttachment(Sword);
+	//공격 히트박스 위치와 크기 설정
+	AttackHitBox->SetRelativeLocation(FVector(0.0f, 0.0f, 70.0f));
+	AttackHitBox->SetCapsuleHalfHeight(70.0f);
+	AttackHitBox->SetCapsuleRadius(22.0f);
+
+
+
+	//가드 컴포넌트 설정
+	GuardComponent = CreateDefaultSubobject<UPlayerGuardComponent>(TEXT("GuardComponent"));
+	GuardComponent->SetupAttachment(Shield);
+	//가드 히트박스 설정
+	GuardHitBox = CreateDefaultSubobject<UBoxComponent>(TEXT("Guard HitBox"));
+	GuardHitBox->SetupAttachment(Shield);
+	//가드 히트박스 위치와 크기 설정
+	GuardHitBox->SetRelativeLocation(FVector(0.0f, 10.0f, 0.0f));
+	GuardHitBox->SetBoxExtent(FVector(50.0f, 10.0f, 50.0f));
+
 
 	//애니메이션
 	static ConstructorHelpers::FClassFinder<UPlayerAnimInstance> AI(TEXT("/Script/Engine.AnimBlueprint'/Game/Animations/ABP_Player.ABP_Player_C'"));
@@ -72,22 +114,12 @@ void AMyPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	AnimInstance = Cast<UPlayerAnimInstance>(BaseAnimInstance);
 	CurrentActionState = ECharacterActionState::Default;
 }
 
 void AMyPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-}
-
-void AMyPlayer::Attack()
-{
-	UPlayerAnimInstance* PlayerAnimInstance = Cast<UPlayerAnimInstance>(AnimInstance);
-	if (!PlayerAnimInstance) return;
-	
-	//몽타주 실행
-	//PlayerAnimInstance->PlayAttackMontage();
-	//히트박스 활성화
 
 }

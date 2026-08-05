@@ -39,6 +39,7 @@ AMyPlayer::AMyPlayer()
 		Sword->SetStaticMesh(SwordMesh.Object);
 		Sword->SetupAttachment(GetMesh(), TEXT("WeaponSocket"));
 		Sword->SetRelativeLocationAndRotation(FVector(0.0, 0.0, 0.0), FRotator(0.0, 0.0, -90.0));
+		Sword->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	}
 	//방패
 	Shield = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Shield"));
@@ -78,7 +79,7 @@ AMyPlayer::AMyPlayer()
 	
 
 	//공격 컴포넌트 설정 : BP_PlayerAttackComp로 등록
-	static ConstructorHelpers::FClassFinder<UPlayerAttackComponent> AC(TEXT("/Script/Engine.Blueprint'/Game/Characters/Players/Components/BP_PlayerAttackComp.BP_PlayerAttackComp_C'"));
+	static ConstructorHelpers::FClassFinder<UPlayerAttackComponent> AC(TEXT("/Script/Engine.Blueprint'/Game/BluePrints/Characters/Players/Components/BP_PlayerAttackComp.BP_PlayerAttackComp_C'"));
 	if (AC.Succeeded())
 	{
 		AttackComponent = Cast<UPlayerAttackComponent>(CreateDefaultSubobject(TEXT("AttackComponent"), AC.Class, AC.Class, true, false));
@@ -106,7 +107,7 @@ AMyPlayer::AMyPlayer()
 
 
 	//애니메이션
-	static ConstructorHelpers::FClassFinder<UPlayerAnimInstance> AI(TEXT("/Script/Engine.AnimBlueprint'/Game/Animations/ABP_Player.ABP_Player_C'"));
+	static ConstructorHelpers::FClassFinder<UPlayerAnimInstance> AI(TEXT("/Script/Engine.AnimBlueprint'/Game/BluePrints/Animations/ABP_Player.ABP_Player_C'"));
 	if (AI.Succeeded()) GetMesh()->SetAnimInstanceClass(AI.Class);
 }
 

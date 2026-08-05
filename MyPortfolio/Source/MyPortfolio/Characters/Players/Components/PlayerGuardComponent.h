@@ -24,9 +24,14 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Owner")
 	TObjectPtr<AMyPlayer> Player;
 
-
 protected:
-	//가드 히트박스 : 위치, 회전은 블루프린트에서 설정
+	//가드 히트박스
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HitBox")
 	TObjectPtr<UBoxComponent> HitBox;
+
+
+private:
+	//디버깅용
+	UFUNCTION(BlueprintCallable, Category = "Debug")
+	void DrawDebugGuardHitBox(float DeltaTime, FColor Color);
 };

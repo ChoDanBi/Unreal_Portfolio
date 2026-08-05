@@ -40,6 +40,7 @@ public:	//Attack
 	void EndAttack();
 
 private:
+	//공격 히트박스 충돌 이벤트 처리
 	UFUNCTION()
 	void OnAttackHitBoxOverlap(
 		UPrimitiveComponent* OverlappedComponent,
@@ -49,4 +50,9 @@ private:
 		bool bFromSweep,
 		const FHitResult& SweepResult
 	);
+
+private:
+	//디버깅용
+	UFUNCTION(BlueprintCallable, Category = "Debug")
+	void DrawDebugAttackHitBox(float DeltaTime, FColor Color);
 };

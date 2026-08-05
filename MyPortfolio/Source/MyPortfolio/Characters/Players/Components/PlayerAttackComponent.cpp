@@ -31,19 +31,8 @@ void UPlayerAttackComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if (Player->GetActionState() == ECharacterActionState::Attack && IsValid(HitBox))
-	{
-		DrawDebugCapsule(
-			GetWorld(),
-			HitBox->GetComponentLocation(),
-			HitBox->GetScaledCapsuleHalfHeight(),
-			HitBox->GetScaledCapsuleRadius(),
-			HitBox->GetComponentQuat(),
-			FColor::Green,
-			false,
-			DeltaTime
-		);
-	}
+	if(Player->GetActionState() == ECharacterActionState::Attack) DrawDebugAttackHitBox(DeltaTime, FColor::Green);
+	else DrawDebugAttackHitBox(DeltaTime, FColor::Red);
 }
 
 
@@ -74,4 +63,19 @@ void UPlayerAttackComponent::OnAttackHitBoxOverlap(UPrimitiveComponent* Overlapp
 		Player,
 		UDamageType::StaticClass()
 	);
+}
+
+void UPlayerAttackComponent::DrawDebugAttackHitBox(float DeltaTime, FColor Color)
+{
+	if (!IsValid(HitBox)) return;
+		DrawDebugCapsule(
+			GetWorld(),
+			HitBox->GetComponentLocation(),
+			HitBox->GetScaledCapsuleHalfHeight(),
+			HitBox->GetScaledCapsuleRadius(),
+			HitBox->GetComponentQuat(),
+			Color,
+			false,
+			DeltaTime
+		);
 }

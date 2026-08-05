@@ -24,17 +24,20 @@ void UPlayerGuardComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-    if (IsValid(HitBox))
-    {
-        DrawDebugBox(
-            GetWorld(),
-            HitBox->GetComponentLocation(),
-            HitBox->GetScaledBoxExtent(),
-            HitBox->GetComponentQuat(),
-            FColor::Blue,
-            false,
-            DeltaTime
-        );
-    }
+    DrawDebugGuardHitBox(DeltaTime, FColor::Red);
 }
 
+void UPlayerGuardComponent::DrawDebugGuardHitBox(float DeltaTime, FColor Color)
+{
+    if (!IsValid(HitBox)) return;
+
+    DrawDebugBox(
+        GetWorld(),
+        HitBox->GetComponentLocation(),
+        HitBox->GetScaledBoxExtent(),
+        HitBox->GetComponentQuat(),
+        Color,
+        false,
+        DeltaTime
+    );
+}

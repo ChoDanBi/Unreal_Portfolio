@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "MyPortfolio/Characters/BaseCharacter.h"
+#include "MyPortfolio/Characters/CombatCharacter.h"
 #include "MyPlayer.generated.h"
 
 class UStaticMeshComponent;
@@ -25,7 +25,7 @@ enum class ECharacterActionState : uint8
 };
 
 UCLASS()
-class MYPORTFOLIO_API AMyPlayer : public ABaseCharacter
+class MYPORTFOLIO_API AMyPlayer : public ACombatCharacter
 {
 	GENERATED_BODY()
 

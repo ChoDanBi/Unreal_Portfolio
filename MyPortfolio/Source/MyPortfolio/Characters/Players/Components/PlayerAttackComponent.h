@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/SceneComponent.h"
+#include "MyPortfolio/Components/AttackComponent.h"
 #include "PlayerAttackComponent.generated.h"
 
 class AMyPlayer;
@@ -10,7 +10,7 @@ class UPrimitiveComponent;
 struct FHitResult;
 
 UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
-class MYPORTFOLIO_API UPlayerAttackComponent : public USceneComponent
+class MYPORTFOLIO_API UPlayerAttackComponent : public UAttackComponent
 {
 	GENERATED_BODY()
 

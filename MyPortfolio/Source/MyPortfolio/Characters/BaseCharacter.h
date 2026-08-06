@@ -6,7 +6,18 @@
 #include "GameFramework/Character.h"
 #include "BaseCharacter.generated.h"
 
-class UCapsuleComponent;
+USTRUCT(BlueprintType)
+struct FTargetSettings
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bCanBeTargeted = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bCanTakeDamage = true;
+};
 
 UCLASS()
 class MYPORTFOLIO_API ABaseCharacter : public ACharacter
@@ -17,47 +28,37 @@ public:
 	ABaseCharacter();
 protected:
 	virtual void BeginPlay() override;
-public:
-	virtual void Tick(float DeltaTime) override;
 
-protected:
+
 	//초기값 Status
+protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Status")
 	float MaxHp;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Status")
 	float CurrentHp;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Status")
-	float AttackRange;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Status")
-	float AttackPower;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Status")
-	float DefensePower;
 public:
 	// Getter functions for the character's status
 	UFUNCTION(BlueprintPure, Category = "Status")
 	float GetMaxHp() const { return MaxHp; }
 	UFUNCTION(BlueprintPure, Category = "Status")
 	float GetCurrentHp() const { return CurrentHp; }
-	UFUNCTION(BlueprintPure, Category = "Status")
-	float GetAttackRange() const { return AttackRange; }
-	UFUNCTION(BlueprintPure, Category = "Status")
-	float GetAttackPower() const { return AttackPower; }
-	UFUNCTION(BlueprintPure, Category = "Status")
-	float GetDefensePower() const { return DefensePower; }
-
-
-protected:	//HitBox
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "HitBox")
-	TObjectPtr<UCapsuleComponent> AttackHitBox;
-public:
-	UFUNCTION(BlueprintPure, Category = "HitBox")
-	UCapsuleComponent* GetAttackHitBox() const { return AttackHitBox; }
 
 
 protected:
-	UPROPERTY()
-	TObjectPtr<class UAnimInstance> BaseAnimInstance;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Target Setting")
+	FTargetSettings TargetSettings;
+public:
+	UFUNCTION(BlueprintPure, Category = "Target Setting")
+	const FTargetSettings& GetTargetSettings() const { return TargetSettings; }
+	UFUNCTION(BlueprintPure, Category = "Target Setting")
+	bool CanBeTargeted() const { return TargetSettings.bCanBeTargeted; }
+	UFUNCTION(BlueprintPure, Category = "Target Setting")
+	bool CanTakeDamage() const { return TargetSettings.bCanTakeDamage; }
 
+
+protected:	//애니메이션
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation Instance")
+	TObjectPtr<class UAnimInstance> BaseAnimInstance;
 
 public:
 	/*

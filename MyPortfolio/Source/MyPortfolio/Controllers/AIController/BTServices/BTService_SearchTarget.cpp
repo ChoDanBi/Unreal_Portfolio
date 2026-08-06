@@ -3,7 +3,9 @@
 
 #include "BTService_SearchTarget.h"
 #include "BehaviorTree/BlackboardComponent.h"
-#include "MyPortfolio/Characters/Players/MyPlayer.h"
+
+#include "MyPortfolio/Characters/Enemys/BaseEnemy.h"
+
 #include "DrawDebugHelpers.h"
 #include "AIController.h"
 
@@ -14,9 +16,6 @@ UBTService_SearchTarget::UBTService_SearchTarget()
 	NodeName = TEXT("Search Target");
 	//interval : 서비스가 TickNode를 호출하는 시간 간격을 설정합니다. 0.5초로 설정되어 있습니다.
 	Interval = 0.5f;
-
-	//초기값
-	SearchDistance = 500.f;
 }
 
 void UBTService_SearchTarget::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
@@ -28,14 +27,17 @@ void UBTService_SearchTarget::TickNode(UBehaviorTreeComponent& OwnerComp, uint8*
 	APawn* Pawn = AIController->GetPawn();
 	if (!Pawn) return;
 
-	AMyPlayer* Target = FindTarget(Pawn);
+	ABaseCharacter* Target = FindTarget(Pawn);
 
 	UpdateTargetBlackboard(OwnerComp, Target);
 	DrawSearchDebug(Pawn, Target != nullptr);
 }
 
-AMyPlayer* UBTService_SearchTarget::FindTarget(APawn* Pawn) const
+ABaseCharacter* UBTService_SearchTarget::FindTarget(APawn* Pawn) const
 {
+	ABaseEnemy* Enemy = Cast<ABaseEnemy>(Pawn);
+	if (!Enemy) return nullptr;
+
 	//검색 범위 내의 모든 오버랩 결과를 저장할 배열
 	TArray<FOverlapResult> OverlapResults;
 
@@ -51,23 +53,29 @@ AMyPlayer* UBTService_SearchTarget::FindTarget(APawn* Pawn) const
 		Center,
 		FQuat::Identity,	// 회전 없음
 		ECC_GameTraceChannel1,	//Custom Trace Channel 1
-		FCollisionShape::MakeSphere(SearchDistance),	//검색 범위를 구체로 설정
+		FCollisionShape::MakeSphere(Enemy->GetSearchDistance()),	//검색 범위를 구체로 설정
 		QueryParams
 	);
 
 	if (!bResult) return nullptr;
 
-	//검색 범위 내의 모든 오버랩 결과를 순회하며, AMyPlayer 클래스의 인스턴스를 찾음
+	//검색 범위 내의 모든 오버랩 결과를 순회
 	for (const FOverlapResult& OverlapResult : OverlapResults)
 	{
-		AMyPlayer* Player = Cast<AMyPlayer>(OverlapResult.GetActor());
-		if (Player) return Player;
+		//캐릭터가 target 대상이 아닌 경우 continue
+		auto Character = Cast<ABaseCharacter>(OverlapResult.GetActor());
+		if (!Character || !Character->CanBeTargeted()) continue;
+		//캐릭터가 Enemy(동족)인 경우 continue
+		auto EnemyCharacter = Cast<ABaseEnemy>(Character);
+		if (EnemyCharacter) continue;
+
+		return Character;
 	}
 
 	return nullptr;
 }
 
-void UBTService_SearchTarget::UpdateTargetBlackboard(UBehaviorTreeComponent& OwnerComp, AMyPlayer* Target) const
+void UBTService_SearchTarget::UpdateTargetBlackboard(UBehaviorTreeComponent& OwnerComp, ABaseCharacter* Target) const
 {
 	UBlackboardComponent* Blackboard = OwnerComp.GetBlackboardComponent();
 	if (!Blackboard) return;
@@ -79,10 +87,13 @@ void UBTService_SearchTarget::DrawSearchDebug(APawn* Pawn, bool bFoundTarget)
 {
 	if (!Pawn) return;
 
+	ABaseEnemy* Enemy = Cast<ABaseEnemy>(Pawn);
+	if (!Enemy) return;
+
 	DrawDebugSphere(
 		GetWorld(),					//검색 범위 시각화
 		Pawn->GetActorLocation(),	//검색 범위 중심 위치
-		SearchDistance,				//검색 범위 반지름
+		Enemy->GetSearchDistance(),	//검색 범위 반지름
 		10,							//검색 범위를 시각화할 구체의 세그먼트 수
 		bFoundTarget ? FColor::Green : FColor::Red,
 		false,						//검색 범위를 시각화할 구체를 지속적으로 표시할지 여부

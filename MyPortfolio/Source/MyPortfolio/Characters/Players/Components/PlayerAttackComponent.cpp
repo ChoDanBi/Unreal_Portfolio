@@ -2,26 +2,26 @@
 #include "MyPortfolio/Characters/Players/MyPlayer.h"
 
 #include "Components/CapsuleComponent.h"
-#include "Components/PrimitiveComponent.h"
-
-#include "DrawDebugHelpers.h"
-
-#include "Kismet/GameplayStatics.h"
-#include "Engine/HitResult.h"
 
 UPlayerAttackComponent::UPlayerAttackComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
+
+	DefaultHitBox = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Attack HitBox"));
+	HitBox = Cast<UCapsuleComponent>(DefaultHitBox);
+	HitBox->SetRelativeLocation(FVector(0.0f, 0.0f, 70.0f));
+	HitBox->SetCapsuleHalfHeight(70.0f);
+	HitBox->SetCapsuleRadius(22.0f);
 }
 
 
 void UPlayerAttackComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	Player = Cast<AMyPlayer>(GetOwner());
+	Player = Cast<AMyPlayer>(CompOwner);
 
-	HitBox = Player->GetAttackHitBox();
 	HitBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
 	//이벤트 등록
 	HitBox->OnComponentBeginOverlap.AddDynamic(this, &UPlayerAttackComponent::OnAttackHitBoxOverlap);
 }
@@ -31,8 +31,8 @@ void UPlayerAttackComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if(Player->GetActionState() == ECharacterActionState::Attack) DrawDebugAttackHitBox(DeltaTime, FColor::Green);
-	else DrawDebugAttackHitBox(DeltaTime, FColor::Red);
+	if(Player->GetActionState() == ECharacterActionState::Attack) DebugHitBox(DeltaTime, FColor::Green);
+	else DebugHitBox(DeltaTime, FColor::Red);
 }
 
 
@@ -43,39 +43,13 @@ void UPlayerAttackComponent::StartAttack_Implementation()
 	HitBox->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 }
 
+void UPlayerAttackComponent::Attack()
+{
+	StartAttack();
+}
+
 void UPlayerAttackComponent::EndAttack()
 {
 	Player->SetActionState(ECharacterActionState::Default);
 	HitBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-}
-
-void UPlayerAttackComponent::OnAttackHitBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	if (!Player || !OtherActor) return;
-
-	// 자기 자신 때리는 거 방지
-	if (OtherActor == Player) return;
-
-	UGameplayStatics::ApplyDamage(
-		OtherActor,
-		Player->GetAttackPower(),
-		Player->GetController(),
-		Player,
-		UDamageType::StaticClass()
-	);
-}
-
-void UPlayerAttackComponent::DrawDebugAttackHitBox(float DeltaTime, FColor Color)
-{
-	if (!IsValid(HitBox)) return;
-		DrawDebugCapsule(
-			GetWorld(),
-			HitBox->GetComponentLocation(),
-			HitBox->GetScaledCapsuleHalfHeight(),
-			HitBox->GetScaledCapsuleRadius(),
-			HitBox->GetComponentQuat(),
-			Color,
-			false,
-			DeltaTime
-		);
 }

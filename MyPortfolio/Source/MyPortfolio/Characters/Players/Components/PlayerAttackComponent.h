@@ -1,13 +1,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "MyPortfolio/Components/AttackComponent.h"
+#include "MyPortfolio/CommonComponents/AttackComponent.h"
 #include "PlayerAttackComponent.generated.h"
 
 class AMyPlayer;
 class UCapsuleComponent;
-class UPrimitiveComponent;
-struct FHitResult;
 
 UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class MYPORTFOLIO_API UPlayerAttackComponent : public UAttackComponent
@@ -23,36 +21,18 @@ public:
 
 protected:
 	//소유자 캐릭터
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Owner")
 	TObjectPtr<AMyPlayer> Player;
 
-
 protected:
-	//공격 히트박스 : 위치, 회전은 블루프린트에서 설정
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "HitBox")
+	//공격 히트박스
 	TObjectPtr<UCapsuleComponent> HitBox;
 
+public:
+	virtual void Attack() override;
 
 public:	//Attack
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void StartAttack();
 	UFUNCTION(BlueprintCallable)
 	void EndAttack();
-
-private:
-	//공격 히트박스 충돌 이벤트 처리
-	UFUNCTION()
-	void OnAttackHitBoxOverlap(
-		UPrimitiveComponent* OverlappedComponent,
-		AActor* OtherActor,
-		UPrimitiveComponent* OtherComp,
-		int32 OtherBodyIndex,
-		bool bFromSweep,
-		const FHitResult& SweepResult
-	);
-
-private:
-	//디버깅용
-	UFUNCTION(BlueprintCallable, Category = "Debug")
-	void DrawDebugAttackHitBox(float DeltaTime, FColor Color);
 };

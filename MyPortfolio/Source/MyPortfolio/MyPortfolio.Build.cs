@@ -7,8 +7,11 @@ public class MyPortfolio : ModuleRules
 	public MyPortfolio(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "NavigationSystem" });
+
+        // 자신(MyPortfolio)의 Source 폴더 내부를 항상 참조하도록 경로 강제 추가
+        PublicIncludePaths.AddRange(new string[] { "MyPortfolio" });
+
+        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "NavigationSystem" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 

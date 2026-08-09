@@ -4,7 +4,6 @@
 #include "MyPortfolio/Controllers/PlayerController/PlayerAnimalController.h"
 
 #include "MyPortfolio/Characters/Players/MyPlayer.h"
-#include "MyPortfolio/Characters/Players/Components/PlayerAttackComponent.h"
 
 #include "InputAction.h"
 #include "InputActionValue.h"
@@ -41,7 +40,7 @@ void APlayerAnimalController::Attack(const FInputActionValue& Value)
 	AMyPlayer* pPlayer = Cast<AMyPlayer>(ControlledPawn);
 	if (pPlayer)
 	{
-		pPlayer->GetAttackComponent()->StartAttack();
+		pPlayer->Attack();
 	}
 }
 

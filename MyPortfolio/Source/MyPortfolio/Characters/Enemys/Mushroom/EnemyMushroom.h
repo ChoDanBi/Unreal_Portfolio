@@ -22,9 +22,5 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 protected:	//애니메이션 제어
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Animation")
 	TObjectPtr<UMushroomAnimInstance> AnimInstance;
-public:
-	UFUNCTION(BlueprintPure, Category = "Animation")
-	UMushroomAnimInstance* GetAnimInstance() const { return AnimInstance; }
 };

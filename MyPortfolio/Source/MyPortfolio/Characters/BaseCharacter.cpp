@@ -5,10 +5,10 @@
 
 #include "MyPortfolio/Animations/BaseAnimInstance.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "Animation/AnimInstance.h"
 
 ABaseCharacter::ABaseCharacter()
 {
+	//±âº»°ª
 	PrimaryActorTick.bCanEverTick = false;
 	MaxHp = 100.f;
 }
@@ -17,7 +17,7 @@ void ABaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	BaseAnimInstance = GetMesh()->GetAnimInstance();
+	BaseAnimInstance = Cast<UBaseAnimInstance>(GetMesh()->GetAnimInstance());
 	CurrentHp = MaxHp;
 }
 

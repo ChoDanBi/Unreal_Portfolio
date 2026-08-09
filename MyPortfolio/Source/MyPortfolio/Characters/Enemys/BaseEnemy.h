@@ -16,6 +16,12 @@ class MYPORTFOLIO_API ABaseEnemy : public ACombatCharacter
 	
 public:
 	ABaseEnemy();
+protected:
+	virtual void BeginPlay() override;
+public:
+	virtual void Tick(float DeltaTime) override;
+
+	
 
 protected:
 	//�ʱⰪ Status
@@ -25,4 +31,11 @@ public:
 	// Getter functions for the character's status
 	UFUNCTION(BlueprintPure, Category = "Status")
 	float GetSearchDistance() const { return SearchDistance; }
+
+protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AI")
+	FVector HomeLocation;
+public:
+	FVector GetHomeLocation() const { return HomeLocation; }
+
 };

@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "MyPortfolio/Characters/BaseCharacter.h"
+#include "Characters/BaseCharacter.h"
 #include "CombatCharacter.generated.h"
 
 /**
@@ -13,7 +13,8 @@
  */
 
 
-class UCapsuleComponent;
+class UShapeComponent;
+class UAttackComponent;
 
 UCLASS()
 class MYPORTFOLIO_API ACombatCharacter : public ABaseCharacter
@@ -44,10 +45,13 @@ public:
 	float GetDefensePower() const { return DefensePower; }
 
 
-protected:	//АјАн HitBox
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "HitBox")
-	TObjectPtr<UCapsuleComponent> AttackHitBox;
+protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Attack")
+	TObjectPtr<UAttackComponent> CombatAttackComponent;
 public:
-	UFUNCTION(BlueprintPure, Category = "HitBox")
-	UCapsuleComponent* GetAttackHitBox() const { return AttackHitBox; }
+	UFUNCTION(BlueprintPure, Category = "Attack")
+	UAttackComponent* GetCombatAttackComponent() const { return CombatAttackComponent; }
+
+public:
+	virtual void Attack();
 };

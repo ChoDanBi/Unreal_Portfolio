@@ -4,18 +4,19 @@
 
 #include "CoreMinimal.h"
 #include "BehaviorTree/BTTaskNode.h"
-#include "BTTask_SetDestination.generated.h"
+#include "BTTask_Attack.generated.h"
 
+/**
+ * 
+ */
 UCLASS()
-class MYPORTFOLIO_API UBTTask_SetDestination : public UBTTaskNode
+class MYPORTFOLIO_API UBTTask_Attack : public UBTTaskNode
 {
 	GENERATED_BODY()
-	
 public:
-	UBTTask_SetDestination();
+	UBTTask_Attack();
 public:
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 private:
-	bool SetDestination(UBehaviorTreeComponent& OwnerComp) const;
-	bool SetDestinationToHome(UBehaviorTreeComponent& OwnerComp) const;
+	bool Attack(UBehaviorTreeComponent& OwnerComp) const;
 };

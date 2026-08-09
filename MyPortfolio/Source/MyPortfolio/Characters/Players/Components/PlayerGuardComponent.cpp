@@ -6,15 +6,17 @@
 UPlayerGuardComponent::UPlayerGuardComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
+    HitBox = CreateDefaultSubobject<UBoxComponent>(TEXT("Guard HitBox"));
+    HitBox->SetRelativeLocation(FVector(0.0f, 10.0f, 0.0f));
+    HitBox->SetBoxExtent(FVector(50.0f, 10.0f, 50.0f));
 }
 
 
 void UPlayerGuardComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	Player = Cast<AMyPlayer>(GetOwner());
+    Player = Cast<AMyPlayer>(GetOwner());
 
-	HitBox = Player->GetGuardHitBox();
     HitBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
@@ -24,7 +26,12 @@ void UPlayerGuardComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-    DrawDebugGuardHitBox(DeltaTime, FColor::Red);
+    if(Player && Player->GetActionState() == ECharacterActionState::Guard)
+        DrawDebugGuardHitBox(DeltaTime, FColor::Green);
+    
+    else
+        DrawDebugGuardHitBox(DeltaTime, FColor::Red);
+
 }
 
 void UPlayerGuardComponent::DrawDebugGuardHitBox(float DeltaTime, FColor Color)

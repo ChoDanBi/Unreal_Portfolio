@@ -3,6 +3,7 @@
 
 #include "CombatCharacter.h"
 #include "Components/CapsuleComponent.h"
+#include "MyPortfolio/CommonComponents/AttackComponent.h"
 
 ACombatCharacter::ACombatCharacter()
 {
@@ -10,7 +11,7 @@ ACombatCharacter::ACombatCharacter()
 	AttackRange = 300.f;
 	DefensePower = 5.f;
 
-	AttackHitBox = nullptr;
+	CombatAttackComponent = nullptr;
 }
 
 void ACombatCharacter::BeginPlay()
@@ -21,4 +22,9 @@ void ACombatCharacter::BeginPlay()
 void ACombatCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
+
+void ACombatCharacter::Attack()
+{
+	CombatAttackComponent->Attack();
 }

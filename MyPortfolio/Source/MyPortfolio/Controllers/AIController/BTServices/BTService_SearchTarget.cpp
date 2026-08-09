@@ -4,7 +4,7 @@
 #include "BTService_SearchTarget.h"
 #include "BehaviorTree/BlackboardComponent.h"
 
-#include "MyPortfolio/Characters/Enemys/BaseEnemy.h"
+#include "Characters/Enemys/BaseEnemy.h"
 
 #include "DrawDebugHelpers.h"
 #include "AIController.h"
@@ -63,13 +63,13 @@ ABaseCharacter* UBTService_SearchTarget::FindTarget(APawn* Pawn) const
 	for (const FOverlapResult& OverlapResult : OverlapResults)
 	{
 		//캐릭터가 target 대상이 아닌 경우 continue
-		auto Character = Cast<ABaseCharacter>(OverlapResult.GetActor());
-		if (!Character || !Character->CanBeTargeted()) continue;
+		auto Target = Cast<ABaseCharacter>(OverlapResult.GetActor());
+		if (!Target || !Target->CanBeTargeted()) continue;
 		//캐릭터가 Enemy(동족)인 경우 continue
-		auto EnemyCharacter = Cast<ABaseEnemy>(Character);
+		auto EnemyCharacter = Cast<ABaseEnemy>(Target);
 		if (EnemyCharacter) continue;
 
-		return Character;
+		return Target;
 	}
 
 	return nullptr;

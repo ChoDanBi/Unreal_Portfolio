@@ -28,6 +28,10 @@ protected:
 	//가드 히트박스
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HitBox")
 	TObjectPtr<UBoxComponent> HitBox;
+public:
+	// Getter for the guard hitbox
+	UFUNCTION(BlueprintPure, Category = "HitBox")
+	UBoxComponent* GetGuardHitBox() const { return HitBox; }
 
 
 private:

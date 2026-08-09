@@ -1,4 +1,5 @@
 #include "MyPortfolio/Characters/Enemys/Mushroom/EnemyMushroom.h"
+#include "Characters/Enemys/Mushroom/Components/MushroomAttackComponent.h"
 #include "MyPortfolio/Animations/EnemysAnim/MushroomAnim/MushroomAnimInstance.h"
 
 #include "Components/CapsuleComponent.h"
@@ -19,6 +20,9 @@ AEnemyMushroom::AEnemyMushroom()
 	//애니메이션
 	static ConstructorHelpers::FClassFinder<UMushroomAnimInstance> AI(TEXT("/Script/Engine.AnimBlueprint'/Game/BluePrints/Animations/Enemys/Mushroom/ABP_Mushroom.ABP_Mushroom_C'"));
 	if (AI.Succeeded()) GetMesh()->SetAnimInstanceClass(AI.Class);
+
+	CombatAttackComponent = CreateDefaultSubobject<UMushroomAttackComponent>(TEXT("AttackComponent"));
+	CombatAttackComponent->GetAttackHitBox()->SetupAttachment(RootComponent);
 }
 
 void AEnemyMushroom::BeginPlay()
@@ -34,3 +38,4 @@ void AEnemyMushroom::Tick(float DeltaTime)
 
 
 }
+

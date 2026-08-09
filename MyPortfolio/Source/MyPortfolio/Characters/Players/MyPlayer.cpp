@@ -82,28 +82,19 @@ AMyPlayer::AMyPlayer()
 	static ConstructorHelpers::FClassFinder<UPlayerAttackComponent> AC(TEXT("/Script/Engine.Blueprint'/Game/BluePrints/Characters/Players/Components/BP_PlayerAttackComp.BP_PlayerAttackComp_C'"));
 	if (AC.Succeeded())
 	{
-		AttackComponent = Cast<UPlayerAttackComponent>(CreateDefaultSubobject(TEXT("AttackComponent"), AC.Class, AC.Class, true, false));
-		if (AttackComponent)AttackComponent->SetupAttachment(Sword);
+		CombatAttackComponent = Cast<UPlayerAttackComponent>(CreateDefaultSubobject(TEXT("AttackComponent"), AC.Class, AC.Class, true, false));
+		if (CombatAttackComponent)
+		{
+			CombatAttackComponent->SetupAttachment(Sword);
+			CombatAttackComponent->GetAttackHitBox()->SetupAttachment(Sword);
+		}
 	}
-	//공격 히트박스 설정
-	AttackHitBox = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Attack HitBox"));
-	AttackHitBox->SetupAttachment(Sword);
-	//공격 히트박스 위치와 크기 설정
-	AttackHitBox->SetRelativeLocation(FVector(0.0f, 0.0f, 70.0f));
-	AttackHitBox->SetCapsuleHalfHeight(70.0f);
-	AttackHitBox->SetCapsuleRadius(22.0f);
-
 
 
 	//가드 컴포넌트 설정
 	GuardComponent = CreateDefaultSubobject<UPlayerGuardComponent>(TEXT("GuardComponent"));
 	GuardComponent->SetupAttachment(Shield);
-	//가드 히트박스 설정
-	GuardHitBox = CreateDefaultSubobject<UBoxComponent>(TEXT("Guard HitBox"));
-	GuardHitBox->SetupAttachment(Shield);
-	//가드 히트박스 위치와 크기 설정
-	GuardHitBox->SetRelativeLocation(FVector(0.0f, 10.0f, 0.0f));
-	GuardHitBox->SetBoxExtent(FVector(50.0f, 10.0f, 50.0f));
+	GuardComponent->GetGuardHitBox()->SetupAttachment(Shield);	//가드 히트박스는 shield에 붙이기
 
 
 	//애니메이션
@@ -115,8 +106,8 @@ void AMyPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	AnimInstance = Cast<UPlayerAnimInstance>(BaseAnimInstance);
 	CurrentActionState = ECharacterActionState::Default;
+	AnimInstance = Cast<UPlayerAnimInstance>(BaseAnimInstance);
 }
 
 void AMyPlayer::Tick(float DeltaTime)

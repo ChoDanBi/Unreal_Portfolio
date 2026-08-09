@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "BaseCharacter.generated.h"
 
+class UBaseAnimInstance;
+
 USTRUCT(BlueprintType)
 struct FTargetSettings
 {
@@ -58,7 +60,10 @@ public:
 
 protected:	//애니메이션
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation Instance")
-	TObjectPtr<class UAnimInstance> BaseAnimInstance;
+	TObjectPtr<UBaseAnimInstance> BaseAnimInstance;
+public:
+	UFUNCTION(BlueprintPure, Category = "Animation Instance")
+	UBaseAnimInstance* GetBaseAnimInstance() const { return BaseAnimInstance; }
 
 public:
 	/*

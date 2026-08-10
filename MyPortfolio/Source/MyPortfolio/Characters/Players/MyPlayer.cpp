@@ -77,7 +77,7 @@ AMyPlayer::AMyPlayer()
 	SpringArm->SocketOffset = FVector(0.0f, 120.0f, 0.0f);
 	
 	
-
+	/*
 	//공격 컴포넌트 설정 : BP_PlayerAttackComp로 등록
 	static ConstructorHelpers::FClassFinder<UPlayerAttackComponent> AC(TEXT("/Script/Engine.Blueprint'/Game/BluePrints/Characters/Players/Components/BP_PlayerAttackComp.BP_PlayerAttackComp_C'"));
 	if (AC.Succeeded())
@@ -89,6 +89,10 @@ AMyPlayer::AMyPlayer()
 			CombatAttackComponent->GetAttackHitBox()->SetupAttachment(Sword);
 		}
 	}
+	*/
+	CombatAttackComponent = CreateDefaultSubobject<UPlayerAttackComponent>(TEXT("AttackComponent"));
+	CombatAttackComponent->SetupAttachment(Sword);
+	CombatAttackComponent->GetAttackHitBox()->SetupAttachment(Sword);
 
 
 	//가드 컴포넌트 설정

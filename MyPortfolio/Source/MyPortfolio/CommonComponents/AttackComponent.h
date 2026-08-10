@@ -23,24 +23,6 @@ protected:
 public:	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	/*
-protected:
-	//공격력
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attack")
-	float AttackPower;
-	//공격 범위
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attack")
-	float AttackRange;
-	//공격 쿨타임
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attack")
-	float AttackCoolTime;
-	//공격 쿨타임 타이머
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Attack")
-	float AttackCoolTimeTimer;
-	//공격 중인지 여부
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Attack")
-	bool bIsAttacking;
-	*/
 
 	//컴포넌트 소유주
 protected:
@@ -59,8 +41,25 @@ public:
 	UFUNCTION(BlueprintPure, Category = "HitBox")
 	UShapeComponent* GetAttackHitBox() const { return DefaultHitBox; }
 
+
+//공격이름들
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attack")
+	TArray<FName> AttackNames;
+	bool bIsAttacking;
+	int CurrentAttackIndex;
+protected:
+	const FName GetCurrentAttackName() const { return AttackNames[CurrentAttackIndex]; }
+	const FName SetNextAttackIndex();
+
+//공격함수
 public:
-	virtual void Attack();
+	UFUNCTION(BlueprintCallable, Category = "HitBox")
+	virtual void Attack() {};		//공격 함수
+	virtual void CancelAttack();	//공격 중 종료
+	virtual void EndAttack() {};	//공격 종료 시 호출
+	void SetEndAttackDelegate(UAnimMontage* Montage, bool bInterrupted) { EndAttack(); }
+
 
 protected:
 	//공격 히트박스 충돌 이벤트 처리

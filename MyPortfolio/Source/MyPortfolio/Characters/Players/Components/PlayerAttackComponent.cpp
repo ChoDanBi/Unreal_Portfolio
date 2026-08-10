@@ -1,5 +1,6 @@
 #include "MyPortfolio/Characters/Players/Components/PlayerAttackComponent.h"
 #include "MyPortfolio/Characters/Players/MyPlayer.h"
+#include "Animations/BaseAnimInstance.h"
 
 #include "Components/CapsuleComponent.h"
 
@@ -12,6 +13,8 @@ UPlayerAttackComponent::UPlayerAttackComponent()
 	HitBox->SetRelativeLocation(FVector(0.0f, 0.0f, 70.0f));
 	HitBox->SetCapsuleHalfHeight(70.0f);
 	HitBox->SetCapsuleRadius(22.0f);
+
+	AttackNames = { TEXT("Attack1"), TEXT("Attack2") };
 }
 
 
@@ -21,9 +24,6 @@ void UPlayerAttackComponent::BeginPlay()
 	Player = Cast<AMyPlayer>(CompOwner);
 
 	HitBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-
-	//이벤트 등록
-	HitBox->OnComponentBeginOverlap.AddDynamic(this, &UPlayerAttackComponent::OnAttackHitBoxOverlap);
 }
 
 
@@ -31,25 +31,41 @@ void UPlayerAttackComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if(Player->GetActionState() == ECharacterActionState::Attack) DebugHitBox(DeltaTime, FColor::Green);
+	if(bIsAttacking) DebugHitBox(DeltaTime, FColor::Green);
 	else DebugHitBox(DeltaTime, FColor::Red);
 }
 
 
-void UPlayerAttackComponent::StartAttack_Implementation()
-{
-	//몽타주는 블루프린트에서 구현 및 실행!!
-	Player->SetActionState(ECharacterActionState::Attack);
-	HitBox->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-}
-
 void UPlayerAttackComponent::Attack()
 {
-	StartAttack();
+	//공격 중이면 안 때림
+	if (bIsAttacking) return;
+	bIsAttacking = true;
+
+	//몽타주는 블루프린트에서 구현 및 실행!!
+	HitBox->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+
+	//몽타주가 끝나면 EndAttack()이 자동으로 실행됨
+	FOnMontageEnded EndDelegate;
+	EndDelegate.BindUObject(this, &UAttackComponent::SetEndAttackDelegate);
+
+	CompOwner->GetBaseAnimInstance()->PlayMontageByName(GetCurrentAttackName(), EndDelegate);
+
+	Player->SetActionState(ECharacterActionState::Attack);
 }
 
 void UPlayerAttackComponent::EndAttack()
 {
-	Player->SetActionState(ECharacterActionState::Default);
+	if (!CompOwner || !HitBox)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Attack : Can't End!"));
+		return;
+	}
+
+	bIsAttacking = false;
+
 	HitBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	SetNextAttackIndex();
+
+	Player->SetActionState(ECharacterActionState::Default);
 }

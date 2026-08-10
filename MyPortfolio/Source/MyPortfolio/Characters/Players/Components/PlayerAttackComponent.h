@@ -29,10 +29,5 @@ protected:
 
 public:
 	virtual void Attack() override;
-
-public:	//Attack
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	void StartAttack();
-	UFUNCTION(BlueprintCallable)
-	void EndAttack();
+	virtual void EndAttack() override;
 };

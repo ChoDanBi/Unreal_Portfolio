@@ -6,6 +6,7 @@
 #include "Animation/AnimInstance.h"
 #include "BaseAnimInstance.generated.h"
 
+
 UCLASS()
 class MYPORTFOLIO_API UBaseAnimInstance : public UAnimInstance
 {
@@ -32,13 +33,21 @@ protected:
 	UPROPERTY(Category = "Character Movement", EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
 	bool bIsFalling;
 
+
 protected:	//¸ùÅ¸ÁÖ
 	UPROPERTY(Category = "Character Montage", EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
 	TMap<FName, TObjectPtr<UAnimMontage>> MontageMap;
+public:
+	UFUNCTION(BlueprintPure, Category = "Character Montage")
+	UAnimMontage* GetMontage(FName _MontageName) const;
+
 
 public:
 	UFUNCTION(Category = "Character Montage Function", BlueprintCallable)
 	float PlayMontageByName(FName _MontageName);
+	float PlayMontageByName(FName _MontageName, FOnMontageEnded EndDelegate);
 	UFUNCTION(Category = "Character Montage Function", BlueprintCallable)
 	void StopMontageByName(FName _MontageName);
+	UFUNCTION(Category = "Character Montage Function", BlueprintCallable)
+	void StopAllMontage();
 };

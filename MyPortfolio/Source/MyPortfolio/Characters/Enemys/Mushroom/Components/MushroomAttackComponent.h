@@ -31,4 +31,5 @@ protected:
 
 public:
 	virtual void Attack() override;
+	virtual void EndAttack() override;
 };

@@ -1,6 +1,7 @@
 #include "AttackComponent.h"
 
 #include "Characters/CombatCharacter.h"
+#include "Animations/BaseAnimInstance.h"
 
 #include "Components/BoxComponent.h"
 #include "Components/SphereComponent.h"
@@ -15,23 +16,41 @@ UAttackComponent::UAttackComponent()
 	PrimaryComponentTick.bCanEverTick = false;
 	CompOwner = nullptr;
 	DefaultHitBox = nullptr;
+
+	bIsAttacking = false;
+	CurrentAttackIndex = 0;
 }
 
 void UAttackComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	CompOwner = Cast<ACombatCharacter>(GetOwner());
-}
 
+	//HitBox와 이벤트 자동 연결
+	if (DefaultHitBox)
+	{
+		DefaultHitBox->OnComponentBeginOverlap.AddDynamic(
+			this,
+			&UAttackComponent::OnAttackHitBoxOverlap
+		);
+	}
+}
 
 void UAttackComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 }
 
-void UAttackComponent::Attack()
+void UAttackComponent::CancelAttack()
 {
+	CompOwner->GetBaseAnimInstance()->StopAllMontage();
+}
 
+
+const FName UAttackComponent::SetNextAttackIndex()
+{
+	CurrentAttackIndex = CurrentAttackIndex + 1 < AttackNames.Num() ? CurrentAttackIndex + 1 : 0;
+	return AttackNames[CurrentAttackIndex];
 }
 
 void UAttackComponent::OnAttackHitBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)

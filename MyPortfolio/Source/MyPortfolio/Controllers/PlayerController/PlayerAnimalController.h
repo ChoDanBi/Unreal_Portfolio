@@ -26,6 +26,7 @@ public:
 
 public:
 	void Sprint(const FInputActionValue& Value);
+	void StopSprint(const FInputActionValue& Value);
 	void Attack(const FInputActionValue& Value);
 	void GuardStart(const FInputActionValue& Value);
 	void GuardStop(const FInputActionValue& Value);

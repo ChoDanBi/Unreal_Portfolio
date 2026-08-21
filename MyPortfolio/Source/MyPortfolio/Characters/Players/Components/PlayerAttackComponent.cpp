@@ -56,16 +56,11 @@ void UPlayerAttackComponent::Attack()
 
 void UPlayerAttackComponent::EndAttack()
 {
-	if (!CompOwner || !HitBox)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Attack : Can't End!"));
-		return;
-	}
+	if (!CompOwner || !HitBox) { return; }
 
-	bIsAttacking = false;
-
-	HitBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	SetNextAttackIndex();
+	UAttackComponent::EndAttack();
 
 	Player->SetActionState(ECharacterActionState::Default);
+	bIsAttacking = false;
+	SetNextAttackIndex();
 }

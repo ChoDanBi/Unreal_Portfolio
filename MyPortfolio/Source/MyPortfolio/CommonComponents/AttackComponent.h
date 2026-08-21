@@ -41,6 +41,12 @@ public:
 	UFUNCTION(BlueprintPure, Category = "HitBox")
 	UShapeComponent* GetAttackHitBox() const { return DefaultHitBox; }
 
+	//공격 중 담긴 상대들
+protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Attack")
+	TSet<AActor*> HitActors;
+public:
+	TSet<AActor*>& GetHitActors() { return HitActors; }
 
 //공격이름들
 protected:
@@ -57,7 +63,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "HitBox")
 	virtual void Attack() {};		//공격 함수
 	virtual void CancelAttack();	//공격 중 종료
-	virtual void EndAttack() {};	//공격 종료 시 호출
+	virtual void EndAttack();	//공격 종료 시 호출
 	void SetEndAttackDelegate(UAnimMontage* Montage, bool bInterrupted) { EndAttack(); }
 
 

@@ -34,6 +34,15 @@ protected:
 public:
 	virtual void Tick(float DeltaTime) override;
 
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+	float WalkSpeed = 600.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+	float SprintSpeed = 900.0f;
+public:
+	void SetSprint(bool bSprint);
+
 
 protected://MeshComponent
 	UPROPERTY(VisibleAnywhere)
@@ -48,7 +57,6 @@ protected:
 	TObjectPtr<UCameraComponent> Camera;
 
 
-
 protected:	//Action상태 제어
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Action")
 	ECharacterActionState CurrentActionState;
@@ -57,10 +65,6 @@ public:
 	ECharacterActionState GetActionState() const { return CurrentActionState; }
 	void SetActionState(ECharacterActionState _NewActionState) { CurrentActionState = _NewActionState; };
 
-
-	/*
-	아래는 컴포넌트들을 블루프린트와 C++에 접근할 수 있도록 Getter 함수를 제공
-	*/
 
 protected:	//애니메이션 제어
 	TObjectPtr<UPlayerAnimInstance> AnimInstance;

@@ -29,10 +29,7 @@ void UAttackComponent::BeginPlay()
 	//HitBox와 이벤트 자동 연결
 	if (DefaultHitBox)
 	{
-		DefaultHitBox->OnComponentBeginOverlap.AddDynamic(
-			this,
-			&UAttackComponent::OnAttackHitBoxOverlap
-		);
+		DefaultHitBox->OnComponentBeginOverlap.AddDynamic(this,&UAttackComponent::OnAttackHitBoxOverlap);
 	}
 }
 
@@ -43,9 +40,27 @@ void UAttackComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 
 void UAttackComponent::CancelAttack()
 {
+	HitActors.Empty();
 	CompOwner->GetBaseAnimInstance()->StopAllMontage();
 }
 
+void UAttackComponent::EndAttack()
+{
+	//히트박스 끄기
+	DefaultHitBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	//데미지 주기
+	for (auto OtherActor : HitActors)
+	{
+		UGameplayStatics::ApplyDamage(
+			OtherActor,
+			CompOwner->GetAttackPower(),
+			CompOwner->GetController(),
+			CompOwner,
+			UDamageType::StaticClass()
+		);
+	}
+}
 
 const FName UAttackComponent::SetNextAttackIndex()
 {
@@ -60,6 +75,8 @@ void UAttackComponent::OnAttackHitBoxOverlap(UPrimitiveComponent* OverlappedComp
 	// 자기 자신 때리는 거 방지
 	if (OtherActor == CompOwner) return;
 
+	HitActors.Add(OtherActor);
+	/*
 	UGameplayStatics::ApplyDamage(
 		OtherActor,
 		CompOwner->GetAttackPower(),
@@ -67,6 +84,7 @@ void UAttackComponent::OnAttackHitBoxOverlap(UPrimitiveComponent* OverlappedComp
 		CompOwner,
 		UDamageType::StaticClass()
 	);
+	*/
 }
 
 

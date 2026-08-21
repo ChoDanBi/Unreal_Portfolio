@@ -21,6 +21,10 @@ void APlayerAnimalController::SetupInputComponent()
 	Super::SetupInputComponent();
 	if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent))
 	{
+		//스프린트
+		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Started, this, &APlayerAnimalController::Sprint);
+		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Completed, this, &APlayerAnimalController::StopSprint);
+
 		//공격 처리
 		EnhancedInputComponent->BindAction(AttackAction, ETriggerEvent::Started, this, &APlayerAnimalController::Attack);
 
@@ -32,7 +36,20 @@ void APlayerAnimalController::SetupInputComponent()
 
 void APlayerAnimalController::Sprint(const FInputActionValue& Value)
 {
+	AMyPlayer* pPlayer = Cast<AMyPlayer>(ControlledPawn);
+	if (pPlayer)
+	{
+		pPlayer->SetSprint(true);
+	}
+}
 
+void APlayerAnimalController::StopSprint(const FInputActionValue& Value)
+{
+	AMyPlayer* pPlayer = Cast<AMyPlayer>(ControlledPawn);
+	if (pPlayer)
+	{
+		pPlayer->SetSprint(false);
+	}
 }
 
 void APlayerAnimalController::Attack(const FInputActionValue& Value)

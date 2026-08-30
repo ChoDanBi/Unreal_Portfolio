@@ -41,27 +41,16 @@ UAnimMontage* UBaseAnimInstance::GetMontage(FName _MontageName) const
 	}
 }
 
-float UBaseAnimInstance::PlayMontageByName(FName _MontageName)
+bool UBaseAnimInstance::PlayMontageByName(FName _MontageName)
 {
 	if (const TObjectPtr<UAnimMontage>* Montage = MontageMap.Find(_MontageName))
 	{
-		float PlayResult = Montage_Play(*Montage);
-		return PlayResult;
+		Montage_Play(*Montage);
+		return true;
 	}
+	
 	UE_LOG(LogTemp, Warning, TEXT("ERROR : Montage Not Found!"));
-	return 0.f;
-}
-
-float UBaseAnimInstance::PlayMontageByName(FName _MontageName, FOnMontageEnded EndDelegate)
-{
-	if (const TObjectPtr<UAnimMontage>* Montage = MontageMap.Find(_MontageName))
-	{
-		float PlayResult = Montage_Play(*Montage);
-		Montage_SetEndDelegate(EndDelegate, *Montage);
-		return PlayResult;
-	}
-	UE_LOG(LogTemp, Warning, TEXT("ERROR : Montage Not Found!"));
-	return 0.f;
+	return false;
 }
 
 void UBaseAnimInstance::StopMontageByName(FName _MontageName)

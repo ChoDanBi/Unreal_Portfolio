@@ -11,6 +11,9 @@ class UShapeComponent;
 class UPrimitiveComponent;
 struct FHitResult;
 
+//델리게이트 선언
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FAttackEventDelegate);
+
 UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class MYPORTFOLIO_API UAttackComponent : public USceneComponent
 {
@@ -60,11 +63,18 @@ protected:
 
 //공격함수
 public:
-	UFUNCTION(BlueprintCallable, Category = "HitBox")
-	virtual void Attack() {};		//공격 함수
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Attack")
+	bool Attack();					//외부에서 쓰는 공격 호출 함수
+	virtual bool Attack_Implementation();
+	//공격 몽타주 실행 및 몽타주 끝나고 EndAttack()를 호출 시킴
+	UPROPERTY(BlueprintAssignable, Category = "Attack")
+	FAttackEventDelegate OnAttackStarted;
+
+protected:
+	UFUNCTION(BlueprintCallable, Category = "Attack")
+	virtual void EndAttack();		//공격 종료 시 호출
+	UFUNCTION(BlueprintCallable, Category = "Attack")
 	virtual void CancelAttack();	//공격 중 종료
-	virtual void EndAttack();	//공격 종료 시 호출
-	void SetEndAttackDelegate(UAnimMontage* Montage, bool bInterrupted) { EndAttack(); }
 
 
 protected:

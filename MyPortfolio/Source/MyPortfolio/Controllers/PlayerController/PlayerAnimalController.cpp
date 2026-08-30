@@ -2,8 +2,9 @@
 
 
 #include "MyPortfolio/Controllers/PlayerController/PlayerAnimalController.h"
-
 #include "MyPortfolio/Characters/Players/MyPlayer.h"
+
+#include "GameFramework/SpringArmComponent.h"
 
 #include "InputAction.h"
 #include "InputActionValue.h"
@@ -14,6 +15,7 @@
 APlayerAnimalController::APlayerAnimalController()
 {
 	GuardAction = nullptr;
+	ZoomAction = nullptr;
 }
 
 void APlayerAnimalController::SetupInputComponent()
@@ -31,6 +33,10 @@ void APlayerAnimalController::SetupInputComponent()
 		//가드 처리
 		EnhancedInputComponent->BindAction(GuardAction, ETriggerEvent::Started, this, &APlayerAnimalController::GuardStart);
 		EnhancedInputComponent->BindAction(GuardAction, ETriggerEvent::Completed, this, &APlayerAnimalController::GuardStop);
+
+		//줌 인
+		EnhancedInputComponent->BindAction(ZoomAction, ETriggerEvent::Started, this, &APlayerAnimalController::ZoomIn);
+		EnhancedInputComponent->BindAction(ZoomAction, ETriggerEvent::Completed, this, &APlayerAnimalController::ZoomOut);
 	}
 }
 
@@ -75,6 +81,28 @@ void APlayerAnimalController::GuardStop(const FInputActionValue& Value)
 	AMyPlayer* pPlayer = Cast<AMyPlayer>(ControlledPawn);
 	if (pPlayer)
 	{
+		pPlayer->SetActionState(ECharacterActionState::Default);
+	}
+}
+
+void APlayerAnimalController::ZoomIn(const FInputActionValue& Value)
+{
+	AMyPlayer* pPlayer = Cast<AMyPlayer>(ControlledPawn);
+	if (pPlayer)
+	{
+		pPlayer->GetSpringArm()->TargetArmLength = 100.f;
+		pPlayer->GetSpringArm()->SocketOffset = FVector(0.0f, 120.0f, 30.0f);
+		pPlayer->SetActionState(ECharacterActionState::Zoom);
+	}
+}
+
+void APlayerAnimalController::ZoomOut(const FInputActionValue& Value)
+{
+	AMyPlayer* pPlayer = Cast<AMyPlayer>(ControlledPawn);
+	if (pPlayer)
+	{
+		pPlayer->GetSpringArm()->TargetArmLength = 400.f;
+		pPlayer->GetSpringArm()->SocketOffset = FVector(0.0f, 0.0f, 0.0f);
 		pPlayer->SetActionState(ECharacterActionState::Default);
 	}
 }

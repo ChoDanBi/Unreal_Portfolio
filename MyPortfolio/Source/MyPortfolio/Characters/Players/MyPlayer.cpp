@@ -73,8 +73,8 @@ AMyPlayer::AMyPlayer()
 	SpringArm->TargetArmLength = 400.f;
 	SpringArm->SetRelativeLocationAndRotation(FVector(0.0f, 0.0f, 9.0f), FRotator(-25.0f, 0.0f, 0.0f));
 	SpringArm->bUsePawnControlRotation = true;
-	SpringArm->bEnableCameraLag = false;
-	SpringArm->SocketOffset = FVector(0.0f, 120.0f, 0.0f);
+	SpringArm->bEnableCameraLag = true;
+	SpringArm->CameraLagSpeed = 10.0f;
 	
 	
 	/*

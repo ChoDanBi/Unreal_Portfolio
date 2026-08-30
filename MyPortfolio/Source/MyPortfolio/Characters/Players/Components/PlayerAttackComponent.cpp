@@ -36,22 +36,14 @@ void UPlayerAttackComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 }
 
 
-void UPlayerAttackComponent::Attack()
+bool UPlayerAttackComponent::Attack_Implementation()
 {
-	//공격 중이면 안 때림
-	if (bIsAttacking) return;
-	bIsAttacking = true;
+	if (!UAttackComponent::Attack_Implementation()) return false;
 
-	//몽타주는 블루프린트에서 구현 및 실행!!
-	HitBox->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-
-	//몽타주가 끝나면 EndAttack()이 자동으로 실행됨
-	FOnMontageEnded EndDelegate;
-	EndDelegate.BindUObject(this, &UAttackComponent::SetEndAttackDelegate);
-
-	CompOwner->GetBaseAnimInstance()->PlayMontageByName(GetCurrentAttackName(), EndDelegate);
+	//몽타주는 블루프린트에서 실행
 
 	Player->SetActionState(ECharacterActionState::Attack);
+	return true;
 }
 
 void UPlayerAttackComponent::EndAttack()
@@ -61,6 +53,5 @@ void UPlayerAttackComponent::EndAttack()
 	UAttackComponent::EndAttack();
 
 	Player->SetActionState(ECharacterActionState::Default);
-	bIsAttacking = false;
 	SetNextAttackIndex();
 }

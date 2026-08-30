@@ -44,10 +44,11 @@ public:
 
 public:
 	UFUNCTION(Category = "Character Montage Function", BlueprintCallable)
-	float PlayMontageByName(FName _MontageName);
-	float PlayMontageByName(FName _MontageName, FOnMontageEnded EndDelegate);
+	bool PlayMontageByName(FName _MontageName);
+
 	UFUNCTION(Category = "Character Montage Function", BlueprintCallable)
 	void StopMontageByName(FName _MontageName);
+	
 	UFUNCTION(Category = "Character Montage Function", BlueprintCallable)
 	void StopAllMontage();
 };

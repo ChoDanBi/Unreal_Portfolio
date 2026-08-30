@@ -30,6 +30,6 @@ protected:
 	TObjectPtr<UCapsuleComponent> HitBox;
 
 public:
-	virtual void Attack() override;
+	virtual bool Attack_Implementation() override;
 	virtual void EndAttack() override;
 };

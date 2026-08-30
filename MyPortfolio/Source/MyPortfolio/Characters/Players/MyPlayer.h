@@ -20,6 +20,7 @@ enum class ECharacterActionState : uint8
 	Default UMETA(DisplayName = "Default"),
 	Guard   UMETA(DisplayName = "Guard"),
 	Attack  UMETA(DisplayName = "Attack"),
+	Zoom  UMETA(DisplayName = "Zoom"),
 };
 
 UCLASS()
@@ -55,6 +56,11 @@ protected:
 	TObjectPtr<USpringArmComponent> SpringArm;
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UCameraComponent> Camera;
+public:
+	UFUNCTION(BlueprintPure)
+	USpringArmComponent* GetSpringArm() { return SpringArm; }
+	UFUNCTION(BlueprintPure)
+	UCameraComponent* GetCamera() { return Camera; }
 
 
 protected:	//Action상태 제어

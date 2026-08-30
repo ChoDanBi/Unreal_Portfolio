@@ -39,18 +39,17 @@ void UMushroomAttackComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 	else DebugHitBox(DeltaTime, FColor::Red);
 }
 
-void UMushroomAttackComponent::Attack()
+bool UMushroomAttackComponent::Attack_Implementation()
 {
-	if (bIsAttacking) return;
-
-	bIsAttacking = true;
-	HitBox->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-
+	if (!UAttackComponent::Attack_Implementation()) return false;
+	/*
 	//몽타주가 끝나면 EndAttack()이 자동으로 실행됨
 	FOnMontageEnded EndDelegate;
 	EndDelegate.BindUObject(this, &UAttackComponent::SetEndAttackDelegate);
 
 	CompOwner->GetBaseAnimInstance()->PlayMontageByName(GetCurrentAttackName(), EndDelegate);
+	*/
+	return true;
 }
 
 void UMushroomAttackComponent::EndAttack()
@@ -60,9 +59,7 @@ void UMushroomAttackComponent::EndAttack()
 		UE_LOG(LogTemp, Warning, TEXT("Attack : Can't End!"));
 		return;
 	}
+	UAttackComponent::EndAttack();
 
-	bIsAttacking = false;
-
-	HitBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	SetNextAttackIndex();
 }

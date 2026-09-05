@@ -1,6 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "UI/UI_ShowDamage.h"
 #include "Components/TextBlock.h"
 

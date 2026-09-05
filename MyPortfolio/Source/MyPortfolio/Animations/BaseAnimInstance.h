@@ -33,7 +33,6 @@ protected:
 	UPROPERTY(Category = "Character Movement", EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
 	bool bIsFalling;
 
-
 protected:	//¸ùÅ¸ÁÖ
 	UPROPERTY(Category = "Character Montage", EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
 	TMap<FName, TObjectPtr<UAnimMontage>> MontageMap;
@@ -41,10 +40,22 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Character Montage")
 	UAnimMontage* GetMontage(FName _MontageName) const;
 
+protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Character Montage")
+	FName MontageKey;
+public:
+	UFUNCTION(BlueprintCallable, Category = "Character Montage")
+	void SetMontageKey(const FName _KeyName) { MontageKey = _KeyName; }
+	UFUNCTION(BlueprintCallable, Category = "Character Montage")
+	const FName GetMontageKey() const { return MontageKey; }
+
 
 public:
 	UFUNCTION(Category = "Character Montage Function", BlueprintCallable)
 	bool PlayMontageByName(FName _MontageName);
+
+	UFUNCTION(Category = "Character Montage Function", BlueprintCallable)
+	bool PlayCurrentMontage() { return PlayMontageByName(MontageKey); }
 
 	UFUNCTION(Category = "Character Montage Function", BlueprintCallable)
 	void StopMontageByName(FName _MontageName);

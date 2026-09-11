@@ -2,7 +2,7 @@
 
 #include "Entity/Players/AnimalHero/AnimInstance/PlayerAnimInstance.h"
 #include "Entity/Players/AnimalHero/Components/PlayerAttackComponent.h"
-#include "Entity/Players/AnimalHero/Components/PlayerGuardComponent.h"
+#include "CommonComponents/GuardComponent.h"
 #include "Entity/Players/AnimalHero/Components/PlayerHookingComponent.h"
 
 #include "GameFramework/CharacterMovementComponent.h"
@@ -75,8 +75,7 @@ AMyPlayer::AMyPlayer()
 	CombatAttackComponent->GetAttackHitBox()->SetupAttachment(Sword);
 
 	//가드 컴포넌트 설정
-	GuardComponent = CreateDefaultSubobject<UPlayerGuardComponent>(TEXT("GuardComponent"));
-	GuardComponent->SetupAttachment(Shield);
+	GuardComponent = CreateDefaultSubobject<UGuardComponent>(TEXT("GuardComponent"));
 
 	//훅킹 컴포넌트 설정
 	HookingComponent = CreateDefaultSubobject<UPlayerHookingComponent>(TEXT("HookingComponent"));
@@ -109,7 +108,7 @@ float AMyPlayer::TakeDamage(float Damage, FDamageEvent const& DamageEvent, ACont
 	//	break;
 	case ECharacterActionState::Guard:
 		//가드 성공 시 데미지 무효화
-		if (GuardComponent->IsGuardingSuccesd(this, DamageCauser))return CurrentHp;
+		if (GuardComponent->IsGuardingSuccess(DamageCauser)) return 0.0f;
 		break;
 
 	case ECharacterActionState::Attack:
@@ -119,9 +118,8 @@ float AMyPlayer::TakeDamage(float Damage, FDamageEvent const& DamageEvent, ACont
 		break;
 	}
 
-	//default 상태에서만 데미지 받음
-	ABaseCharacter::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
-	return CurrentHp;
+	//default 또는 default 상태에서만 데미지 받음
+	return ABaseCharacter::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
 }
 
 void AMyPlayer::SetSprint(bool bSprint)

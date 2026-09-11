@@ -11,7 +11,7 @@ class UCameraComponent;
 class UPlayerAnimInstance;
 
 class UPlayerAttackComponent;
-class UPlayerGuardComponent;
+class UGuardComponent;
 class UPlayerHookingComponent;
 
 
@@ -79,7 +79,7 @@ protected:	//Component
 
 	//가드 컴포넌트
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Guard")
-	TObjectPtr<UPlayerGuardComponent> GuardComponent;
+	TObjectPtr<UGuardComponent> GuardComponent;
 
 	//후킹 컴포넌트
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Hook")
@@ -98,7 +98,7 @@ public:	//Getter
 
 	//가드 컴포넌트 Getter
 	UFUNCTION(BlueprintPure, Category = "Guard")
-	UPlayerGuardComponent* GetGuardComponent() const { return GuardComponent; }
+	UGuardComponent* GetGuardComponent() const { return GuardComponent; }
 
 	//Action 상태 Getter
 	UFUNCTION(BlueprintPure, Category = "Action")

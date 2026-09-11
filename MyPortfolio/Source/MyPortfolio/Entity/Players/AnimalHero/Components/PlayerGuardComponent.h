@@ -4,8 +4,7 @@
 #include "Components/SceneComponent.h"
 #include "PlayerGuardComponent.generated.h"
 
-class AMyPlayer;
-class UBoxComponent;
+class AActor;
 
 UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class MYPORTFOLIO_API UPlayerGuardComponent : public USceneComponent
@@ -16,26 +15,9 @@ public:
 	UPlayerGuardComponent();
 protected:
 	virtual void BeginPlay() override;
+
 public:
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-protected:
-	//소유자 캐릭터
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Owner")
-	TObjectPtr<AMyPlayer> Player;
-
-protected:
-	//가드 히트박스
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HitBox")
-	TObjectPtr<UBoxComponent> HitBox;
-public:
-	// Getter for the guard hitbox
-	UFUNCTION(BlueprintPure, Category = "HitBox")
-	UBoxComponent* GetGuardHitBox() const { return HitBox; }
-
-
-private:
-	//디버깅용
-	UFUNCTION(BlueprintCallable, Category = "Debug")
-	void DrawDebugGuardHitBox(float DeltaTime, FColor Color);
+	// Getter
+	UFUNCTION(BlueprintCallable, Category = "Guard")
+	bool IsGuardingSuccesd(AActor* Player, AActor* DamageCauser) const;
 };

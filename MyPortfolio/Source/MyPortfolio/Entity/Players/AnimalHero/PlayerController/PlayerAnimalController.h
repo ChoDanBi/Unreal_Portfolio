@@ -19,15 +19,22 @@ public:	// Setup input bindings for the player controller
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
 	TObjectPtr<UInputAction> GuardAction;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
 	TObjectPtr<UInputAction> ZoomAction;
 
 public:
-	void Sprint(const FInputActionValue& Value);
-	void StopSprint(const FInputActionValue& Value);
 	void Attack(const FInputActionValue& Value);
+
+	// Sprint and StopSprint functions for handling sprint input
+	void SprintStart(const FInputActionValue& Value);
+	void SprintStop(const FInputActionValue& Value);
+
+	// GuardStart and GuardStop functions for handling guard input
 	void GuardStart(const FInputActionValue& Value);
 	void GuardStop(const FInputActionValue& Value);
+
+	// ZoomIn and ZoomOut functions for handling zoom input
 	void ZoomIn(const FInputActionValue& Value);
 	void ZoomOut(const FInputActionValue& Value);
 };

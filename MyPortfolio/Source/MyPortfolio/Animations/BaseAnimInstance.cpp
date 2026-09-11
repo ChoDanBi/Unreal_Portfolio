@@ -60,8 +60,3 @@ void UBaseAnimInstance::StopMontageByName(FName _MontageName)
 		Montage_Stop(0.2f, *Montage);
 	}
 }
-
-void UBaseAnimInstance::StopAllMontage()
-{
-	Montage_Stop(0.0f);
-}

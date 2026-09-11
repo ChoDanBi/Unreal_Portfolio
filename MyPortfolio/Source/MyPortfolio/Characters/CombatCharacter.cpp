@@ -16,12 +16,7 @@ void ACombatCharacter::BeginPlay()
 	Super::BeginPlay();
 }
 
-void ACombatCharacter::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-}
-
 void ACombatCharacter::Attack()
 {
-	CombatAttackComponent->Attack();
+	if(CombatAttackComponent) CombatAttackComponent->Attack();
 }

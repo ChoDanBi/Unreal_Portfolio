@@ -24,7 +24,7 @@ UPlayerAttackComponent::UPlayerAttackComponent()
 void UPlayerAttackComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	Player = Cast<AMyPlayer>(CompOwner);
+	Player = Cast<AMyPlayer>(DefaultOwner);
 
 	HitBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
@@ -51,7 +51,7 @@ bool UPlayerAttackComponent::Attack_Implementation()
 
 void UPlayerAttackComponent::EndAttack()
 {
-	if (!CompOwner || !HitBox) { return; }
+	if (!DefaultOwner || !HitBox) { return; }
 
 	UAttackComponent::EndAttack();
 

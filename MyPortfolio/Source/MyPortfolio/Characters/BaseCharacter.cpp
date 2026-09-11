@@ -8,22 +8,21 @@
 
 ABaseCharacter::ABaseCharacter()
 {
-	//기본값
+	//Tick 사용 안함
 	PrimaryActorTick.bCanEverTick = false;
-	MaxHp = 100.f;
 }
 
 void ABaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	BaseAnimInstance = Cast<UBaseAnimInstance>(GetMesh()->GetAnimInstance());
 	CurrentHp = MaxHp;
+	BaseAnimInstance = Cast<UBaseAnimInstance>(GetMesh()->GetAnimInstance());
 }
 
 float ABaseCharacter::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
-	if (!CanTakeDamage()) return CurrentHp;
+	if (!GetCanTakeDamage()) return CurrentHp;
 
 	CurrentHp -= Damage;
 	UE_LOG(LogTemp, Warning, TEXT("CurrentHp: %f"), CurrentHp);

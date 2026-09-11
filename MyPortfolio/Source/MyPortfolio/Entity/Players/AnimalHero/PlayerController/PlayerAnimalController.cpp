@@ -20,12 +20,12 @@ void APlayerAnimalController::SetupInputComponent()
 	Super::SetupInputComponent();
 	if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent))
 	{
-		//스프린트
-		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Started, this, &APlayerAnimalController::Sprint);
-		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Completed, this, &APlayerAnimalController::StopSprint);
-
 		//공격 처리
 		EnhancedInputComponent->BindAction(AttackAction, ETriggerEvent::Started, this, &APlayerAnimalController::Attack);
+		
+		//스프린트
+		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Started, this, &APlayerAnimalController::SprintStart);
+		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Completed, this, &APlayerAnimalController::SprintStop);
 
 		//가드 처리
 		EnhancedInputComponent->BindAction(GuardAction, ETriggerEvent::Started, this, &APlayerAnimalController::GuardStart);
@@ -37,69 +37,44 @@ void APlayerAnimalController::SetupInputComponent()
 	}
 }
 
-void APlayerAnimalController::Sprint(const FInputActionValue& Value)
-{
-	AMyPlayer* pPlayer = Cast<AMyPlayer>(ControlledPawn);
-	if (pPlayer)
-	{
-		pPlayer->SetSprint(true);
-	}
-}
-
-void APlayerAnimalController::StopSprint(const FInputActionValue& Value)
-{
-	AMyPlayer* pPlayer = Cast<AMyPlayer>(ControlledPawn);
-	if (pPlayer)
-	{
-		pPlayer->SetSprint(false);
-	}
-}
-
 void APlayerAnimalController::Attack(const FInputActionValue& Value)
 {
 	AMyPlayer* pPlayer = Cast<AMyPlayer>(ControlledPawn);
-	if (pPlayer)
-	{
-		pPlayer->Attack();
-	}
+	if (pPlayer) pPlayer->Attack();
+}
+
+void APlayerAnimalController::SprintStart(const FInputActionValue& Value)
+{
+	AMyPlayer* pPlayer = Cast<AMyPlayer>(ControlledPawn);
+	if (pPlayer) pPlayer->SetSprint(true);
+}
+
+void APlayerAnimalController::SprintStop(const FInputActionValue& Value)
+{
+	AMyPlayer* pPlayer = Cast<AMyPlayer>(ControlledPawn);
+	if (pPlayer) pPlayer->SetSprint(false);
 }
 
 void APlayerAnimalController::GuardStart(const FInputActionValue& Value)
 {
 	AMyPlayer* pPlayer = Cast<AMyPlayer>(ControlledPawn);
-	if (pPlayer)
-	{
-		pPlayer->SetActionState(ECharacterActionState::Guard);
-	}
+	if (pPlayer) pPlayer->SetGuard(true);
 }
 
 void APlayerAnimalController::GuardStop(const FInputActionValue& Value)
 {
 	AMyPlayer* pPlayer = Cast<AMyPlayer>(ControlledPawn);
-	if (pPlayer)
-	{
-		pPlayer->SetActionState(ECharacterActionState::Default);
-	}
+	if (pPlayer) pPlayer->SetGuard(false);
 }
 
 void APlayerAnimalController::ZoomIn(const FInputActionValue& Value)
 {
 	AMyPlayer* pPlayer = Cast<AMyPlayer>(ControlledPawn);
-	if (pPlayer)
-	{
-		pPlayer->GetSpringArm()->TargetArmLength = 100.f;
-		pPlayer->GetSpringArm()->SocketOffset = FVector(0.0f, 120.0f, 30.0f);
-		pPlayer->SetActionState(ECharacterActionState::Zoom);
-	}
+	if (pPlayer) pPlayer->SetZoom(true);
 }
 
 void APlayerAnimalController::ZoomOut(const FInputActionValue& Value)
 {
 	AMyPlayer* pPlayer = Cast<AMyPlayer>(ControlledPawn);
-	if (pPlayer)
-	{
-		pPlayer->GetSpringArm()->TargetArmLength = 400.f;
-		pPlayer->GetSpringArm()->SocketOffset = FVector(0.0f, 0.0f, 0.0f);
-		pPlayer->SetActionState(ECharacterActionState::Default);
-	}
+	if (pPlayer) pPlayer->SetZoom(false);
 }

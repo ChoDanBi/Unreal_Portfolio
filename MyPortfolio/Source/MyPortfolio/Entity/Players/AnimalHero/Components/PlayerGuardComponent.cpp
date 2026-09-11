@@ -1,53 +1,35 @@
 #include "PlayerGuardComponent.h"
 #include "Entity/Players/AnimalHero/MyPlayer.h"
 
-#include "Components/BoxComponent.h"
 
 UPlayerGuardComponent::UPlayerGuardComponent()
 {
-	PrimaryComponentTick.bCanEverTick = true;
-    HitBox = CreateDefaultSubobject<UBoxComponent>(TEXT("Guard HitBox"));
-
-    //HitBox->SetupAttachment(this);
-
-    HitBox->SetRelativeLocation(FVector(0.0f, 10.0f, 0.0f));
-    HitBox->SetBoxExtent(FVector(50.0f, 10.0f, 50.0f));
+    PrimaryComponentTick.bCanEverTick = false;
 }
-
 
 void UPlayerGuardComponent::BeginPlay()
 {
 	Super::BeginPlay();
-    Player = Cast<AMyPlayer>(GetOwner());
-
-    HitBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
-
-// Called every frame
-void UPlayerGuardComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+bool UPlayerGuardComponent::IsGuardingSuccesd(AActor* Player, AActor* DamageCauser) const
 {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+    // 공격자 정보가 없으면 실패
+    if ( !Player || !DamageCauser) return false;
 
-    if(Player && Player->GetActionState() == ECharacterActionState::Guard)
-        DrawDebugGuardHitBox(DeltaTime, FColor::Green);
-    
-    else
-        DrawDebugGuardHitBox(DeltaTime, FColor::Red);
+    // 내 전방 벡터 (수평 평면 기준 정규화)
+    FVector MyForward = Player->GetActorForwardVector();
+    MyForward.Z = 0.0f;
+    MyForward.Normalize();
 
-}
+    // 공격자 방향 벡터 (수평 평면 기준 정규화)
+    FVector ToAttacker = DamageCauser->GetActorLocation() - Player->GetActorLocation();
+    ToAttacker.Z = 0.0f;
+    ToAttacker.Normalize();
 
-void UPlayerGuardComponent::DrawDebugGuardHitBox(float DeltaTime, FColor Color)
-{
-    if (!IsValid(HitBox)) return;
+    // 내적 계산 (전방 120도 기준: cos(60도) = 0.5f)
+    const float DotResult = FVector::DotProduct(MyForward, ToAttacker);
+    const float GuardThreshold = 0.5f;
 
-    DrawDebugBox(
-        GetWorld(),
-        HitBox->GetComponentLocation(),
-        HitBox->GetScaledBoxExtent(),
-        HitBox->GetComponentQuat(),
-        Color,
-        false,
-        DeltaTime
-    );
+    return DotResult >= GuardThreshold;
 }

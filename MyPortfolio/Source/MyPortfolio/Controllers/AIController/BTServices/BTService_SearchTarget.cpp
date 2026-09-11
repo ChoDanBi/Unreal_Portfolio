@@ -61,7 +61,7 @@ ABaseCharacter* UBTService_SearchTarget::FindTarget(APawn* Pawn) const
 	{
 		//캐릭터가 target 대상이 아닌 경우 continue
 		auto Target = Cast<ABaseCharacter>(OverlapResult.GetActor());
-		if (!Target || !Target->CanBeTargeted()) continue;
+		if (!Target || !Target->GetCanBeTargeted()) continue;
 		//캐릭터가 Enemy(동족)인 경우 continue
 		auto EnemyCharacter = Cast<ABaseEnemy>(Target);
 		if (EnemyCharacter) continue;

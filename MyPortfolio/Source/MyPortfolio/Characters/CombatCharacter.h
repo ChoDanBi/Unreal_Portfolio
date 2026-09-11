@@ -23,32 +23,40 @@ public:
 	ACombatCharacter();
 protected:
 	virtual void BeginPlay() override;
-public:
-	virtual void Tick(float DeltaTime) override;
 
-protected:
-	//초기값 Status
+
+protected:	//Status
+	
+	//공격범위
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Status")
 	float AttackRange;
+
+	//공격력
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Status")
 	float AttackPower;
+
+	//방어력
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Status")
 	float DefensePower;
-public:
+
+protected: //Component
+
+	//공격 컴포넌트
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Attack")
+	TObjectPtr<UAttackComponent> CombatAttackComponent;
+
+public:	//Getter
 	UFUNCTION(BlueprintPure, Category = "Status")
 	float GetAttackRange() const { return AttackRange; }
+
 	UFUNCTION(BlueprintPure, Category = "Status")
 	float GetAttackPower() const { return AttackPower; }
+
 	UFUNCTION(BlueprintPure, Category = "Status")
 	float GetDefensePower() const { return DefensePower; }
 
-
-protected:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Attack")
-	TObjectPtr<UAttackComponent> CombatAttackComponent;
-public:
 	UFUNCTION(BlueprintPure, Category = "Attack")
-	UAttackComponent* GetCombatAttackComponent() const { return CombatAttackComponent; }
+	UAttackComponent* GetAttackComponent() const { return CombatAttackComponent; }
 
 public:
 	virtual void Attack();

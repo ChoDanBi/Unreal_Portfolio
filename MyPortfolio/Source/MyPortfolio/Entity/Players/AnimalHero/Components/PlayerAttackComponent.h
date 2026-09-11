@@ -23,7 +23,6 @@ protected:
 	//소유자 캐릭터
 	TObjectPtr<AMyPlayer> Player;
 
-protected:
 	//공격 히트박스
 	TObjectPtr<UCapsuleComponent> HitBox;
 

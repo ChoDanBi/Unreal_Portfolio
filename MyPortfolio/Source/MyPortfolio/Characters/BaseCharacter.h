@@ -8,19 +8,6 @@
 
 class UBaseAnimInstance;
 
-USTRUCT(BlueprintType)
-struct FTargetSettings
-{
-	GENERATED_BODY()
-
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	bool bCanBeTargeted = true;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	bool bCanTakeDamage = true;
-};
-
 UCLASS()
 class MYPORTFOLIO_API ABaseCharacter : public ACharacter
 {
@@ -31,39 +18,44 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-
-	//초기값 Status
 protected:
+	//HP
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Status")
-	float MaxHp;
+	float MaxHp = 100.0f;
+
+	//현재 HP
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Status")
 	float CurrentHp;
-public:
-	// Getter functions for the character's status
+
+	//타겟팅 가능 여부
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Target Setting")
+	bool bCanBeTargeted = true;
+
+	//데미지 받을 수 있는 가능 여부
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Target Setting")
+	bool bCanTakeDamage = true;
+
+	//애니메이션
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation Instance")
+	TObjectPtr<UBaseAnimInstance> BaseAnimInstance;
+
+public:	//Getter
+
 	UFUNCTION(BlueprintPure, Category = "Status")
 	float GetMaxHp() const { return MaxHp; }
+
 	UFUNCTION(BlueprintPure, Category = "Status")
 	float GetCurrentHp() const { return CurrentHp; }
 
-
-protected:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Target Setting")
-	FTargetSettings TargetSettings;
-public:
 	UFUNCTION(BlueprintPure, Category = "Target Setting")
-	const FTargetSettings& GetTargetSettings() const { return TargetSettings; }
-	UFUNCTION(BlueprintPure, Category = "Target Setting")
-	bool CanBeTargeted() const { return TargetSettings.bCanBeTargeted; }
-	UFUNCTION(BlueprintPure, Category = "Target Setting")
-	bool CanTakeDamage() const { return TargetSettings.bCanTakeDamage; }
+	bool GetCanBeTargeted() const { return bCanBeTargeted; }
 
+	UFUNCTION(BlueprintPure, Category = "Target Setting")
+	bool GetCanTakeDamage() const { return bCanTakeDamage; }
 
-protected:	//애니메이션
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation Instance")
-	TObjectPtr<UBaseAnimInstance> BaseAnimInstance;
-public:
 	UFUNCTION(BlueprintPure, Category = "Animation Instance")
 	UBaseAnimInstance* GetBaseAnimInstance() const { return BaseAnimInstance; }
+
 
 public:
 	/*
@@ -75,5 +67,8 @@ public:
 	ApplyDamage = 데미지를 가한다.
 	TakeDamage = 데미지를 받는다.
 	*/
-	virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+	virtual float TakeDamage(float Damage,
+		struct FDamageEvent const& DamageEvent,
+		AController* EventInstigator,
+		AActor* DamageCauser) override;
 };

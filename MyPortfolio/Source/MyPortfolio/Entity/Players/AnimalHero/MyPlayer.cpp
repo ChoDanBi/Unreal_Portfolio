@@ -3,6 +3,7 @@
 #include "Entity/Players/AnimalHero/AnimInstance/PlayerAnimInstance.h"
 #include "Entity/Players/AnimalHero/Components/PlayerAttackComponent.h"
 #include "Entity/Players/AnimalHero/Components/PlayerGuardComponent.h"
+#include "Entity/Players/AnimalHero/Components/PlayerHookingComponent.h"
 
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -19,6 +20,11 @@ AMyPlayer::AMyPlayer()
 	//Tick 설정 : 현재는 쓰지 않음
 	PrimaryActorTick.bCanEverTick = false;
 	
+	//캐릭터 설정
+	GetCharacterMovement()->bOrientRotationToMovement = true;
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationYaw = false;
+	bUseControllerRotationRoll = false;
 
 	//MeshComponent 설정
 	//몸
@@ -48,16 +54,6 @@ AMyPlayer::AMyPlayer()
 		Shield->SetRelativeLocationAndRotation(FVector(-0.52, 0.0, 0.0), FRotator(90.0, 90.0, 180.0));
 	}
 
-
-
-	//캐릭터 설정
-	GetCharacterMovement()->bOrientRotationToMovement = true;
-	bUseControllerRotationPitch = false;
-	bUseControllerRotationYaw = false;
-	bUseControllerRotationRoll = false;
-
-
-
 	//스프링암
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 	SpringArm->SetupAttachment(RootComponent);
@@ -73,30 +69,18 @@ AMyPlayer::AMyPlayer()
 	SpringArm->bEnableCameraLag = true;
 	SpringArm->CameraLagSpeed = 10.0f;
 	
-	
-	/*
-	//공격 컴포넌트 설정 : BP_PlayerAttackComp로 등록
-	static ConstructorHelpers::FClassFinder<UPlayerAttackComponent> AC(TEXT("/Script/Engine.Blueprint'/Game/BluePrints/Characters/Players/Components/BP_PlayerAttackComp.BP_PlayerAttackComp_C'"));
-	if (AC.Succeeded())
-	{
-		CombatAttackComponent = Cast<UPlayerAttackComponent>(CreateDefaultSubobject(TEXT("AttackComponent"), AC.Class, AC.Class, true, false));
-		if (CombatAttackComponent)
-		{
-			CombatAttackComponent->SetupAttachment(Sword);
-			CombatAttackComponent->GetAttackHitBox()->SetupAttachment(Sword);
-		}
-	}
-	*/
+	//공격 컴포넌트 설정
 	CombatAttackComponent = CreateDefaultSubobject<UPlayerAttackComponent>(TEXT("AttackComponent"));
 	CombatAttackComponent->SetupAttachment(Sword);
 	CombatAttackComponent->GetAttackHitBox()->SetupAttachment(Sword);
 
-
 	//가드 컴포넌트 설정
 	GuardComponent = CreateDefaultSubobject<UPlayerGuardComponent>(TEXT("GuardComponent"));
 	GuardComponent->SetupAttachment(Shield);
-	GuardComponent->GetGuardHitBox()->SetupAttachment(Shield);	//가드 히트박스는 shield에 붙이기
 
+	//훅킹 컴포넌트 설정
+	HookingComponent = CreateDefaultSubobject<UPlayerHookingComponent>(TEXT("HookingComponent"));
+	HookingComponent->SetupAttachment(RootComponent);
 
 	//애니메이션
 	static ConstructorHelpers::FClassFinder<UPlayerAnimInstance> AI(TEXT("/Script/Engine.AnimBlueprint'/Game/BluePrints/Animations/ABP_Player.ABP_Player_C'"));
@@ -117,7 +101,60 @@ void AMyPlayer::Tick(float DeltaTime)
 
 }
 
+float AMyPlayer::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	switch (CurrentActionState)
+	{
+	//case ECharacterActionState::Default:
+	//	break;
+	case ECharacterActionState::Guard:
+		//가드 성공 시 데미지 무효화
+		if (GuardComponent->IsGuardingSuccesd(this, DamageCauser))return CurrentHp;
+		break;
+
+	case ECharacterActionState::Attack:
+		break;
+
+	case ECharacterActionState::Zoom:
+		break;
+	}
+
+	//default 상태에서만 데미지 받음
+	ABaseCharacter::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
+	return CurrentHp;
+}
+
 void AMyPlayer::SetSprint(bool bSprint)
 {
 	GetCharacterMovement()->MaxWalkSpeed = bSprint ? SprintSpeed : WalkSpeed;
+}
+
+void AMyPlayer::SetZoom(bool bZoom)
+{
+	if(bZoom)
+	{
+		SpringArm->TargetArmLength = 100.f;
+		SpringArm->SocketOffset = FVector(0.0f, 120.0f, 30.0f);
+		CurrentActionState = ECharacterActionState::Zoom;
+		HookingComponent->SetComponentTickEnabled(true);
+	}
+	else
+	{
+		SpringArm->TargetArmLength = 400.f;
+		SpringArm->SocketOffset = FVector(0.0f, 0.0f, 9.0f);
+		CurrentActionState = ECharacterActionState::Default;
+		HookingComponent->SetComponentTickEnabled(false);
+	}
+}
+
+void AMyPlayer::SetGuard(bool bGuard)
+{
+	if(bGuard)
+	{
+		CurrentActionState = ECharacterActionState::Guard;
+	}
+	else
+	{
+		CurrentActionState = ECharacterActionState::Default;
+	}
 }

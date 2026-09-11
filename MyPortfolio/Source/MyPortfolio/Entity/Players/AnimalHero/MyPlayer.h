@@ -12,6 +12,7 @@ class UPlayerAnimInstance;
 
 class UPlayerAttackComponent;
 class UPlayerGuardComponent;
+class UPlayerHookingComponent;
 
 
 UENUM(BlueprintType)
@@ -35,51 +36,89 @@ protected:
 public:
 	virtual void Tick(float DeltaTime) override;
 
+public:
+	virtual float TakeDamage(float Damage,
+		struct FDamageEvent const& DamageEvent,
+		AController* EventInstigator,
+		AActor* DamageCauser) override;
+
 protected:
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
 	float WalkSpeed = 600.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
 	float SprintSpeed = 900.0f;
-public:
-	void SetSprint(bool bSprint);
+
+	//Action상태 제어
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Action")
+	ECharacterActionState CurrentActionState;
 
 
-protected://MeshComponent
+protected:	//Instance
+	
+	//Animation 제어
+	TObjectPtr<UPlayerAnimInstance> AnimInstance;
+
+
+protected:	//Component
+
+	//MeshComponent
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UStaticMeshComponent> Sword;
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UStaticMeshComponent> Shield;
 
-protected:
+	//Spring Arm
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USpringArmComponent> SpringArm;
+
+	//Camera
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UCameraComponent> Camera;
-public:
+
+	//가드 컴포넌트
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Guard")
+	TObjectPtr<UPlayerGuardComponent> GuardComponent;
+
+	//후킹 컴포넌트
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Hook")
+	TObjectPtr<UPlayerHookingComponent> HookingComponent;
+
+
+public:	//Getter
+
+	//스프링암 컴포넌트 Getter
 	UFUNCTION(BlueprintPure)
 	USpringArmComponent* GetSpringArm() { return SpringArm; }
+
+	//카메라 컴포넌트 Getter
 	UFUNCTION(BlueprintPure)
 	UCameraComponent* GetCamera() { return Camera; }
 
+	//가드 컴포넌트 Getter
+	UFUNCTION(BlueprintPure, Category = "Guard")
+	UPlayerGuardComponent* GetGuardComponent() const { return GuardComponent; }
 
-protected:	//Action상태 제어
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Action")
-	ECharacterActionState CurrentActionState;
-public:
+	//Action 상태 Getter
 	UFUNCTION(BlueprintPure, Category = "Action")
 	ECharacterActionState GetActionState() const { return CurrentActionState; }
+
+
+public: //Setter
+
+	//Action 상태 설정
 	void SetActionState(ECharacterActionState _NewActionState) { CurrentActionState = _NewActionState; };
 
 
-protected:	//애니메이션 제어
-	TObjectPtr<UPlayerAnimInstance> AnimInstance;
+public:	//Playercontroller에서 호출되는 함수
 
+	//달리는 상태 설정
+	void SetSprint(bool bSprint);
 
-protected:	//가드 컴포넌트
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Guard")
-	TObjectPtr<UPlayerGuardComponent> GuardComponent;
-public:
-	UFUNCTION(BlueprintPure, Category = "Guard")
-	UPlayerGuardComponent* GetGuardComponent() const { return GuardComponent; }
+	//줌 & 후킹 상태 설정
+	void SetZoom(bool bZoom);
+
+	//가드 상태 설정
+	void SetGuard(bool bGuard);
 };

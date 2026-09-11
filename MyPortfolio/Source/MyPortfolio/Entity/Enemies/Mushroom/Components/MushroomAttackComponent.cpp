@@ -26,7 +26,7 @@ void UMushroomAttackComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	Mushroom = Cast<AEnemyMushroom>(CompOwner);
+	Mushroom = Cast<AEnemyMushroom>(DefaultOwner);
 	HitBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
@@ -53,7 +53,7 @@ bool UMushroomAttackComponent::Attack_Implementation()
 
 void UMushroomAttackComponent::EndAttack()
 {
-	if (!CompOwner || !HitBox)
+	if (!DefaultOwner || !HitBox)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Attack : Can't End!"));
 		return;

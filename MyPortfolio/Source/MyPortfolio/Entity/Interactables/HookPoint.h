@@ -27,6 +27,6 @@ protected:
 	bool bCanBeHooked;
 public:
 	UFUNCTION(BlueprintPure, Category = "Hook")
-	bool CanBeHooked() const { return bCanBeHooked; }
+	bool GetCanBeHooked() const { return bCanBeHooked; }
 
 };
